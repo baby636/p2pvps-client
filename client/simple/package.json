@@ -1,6 +1,6 @@
 {
   "name": "connect-client.js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Connects the Client to the P2P VPS server",
   "main": "connectClient.js",
   "dependencies": {
