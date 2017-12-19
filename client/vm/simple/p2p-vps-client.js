@@ -80,7 +80,16 @@ const expressServer = new ExpressServer(app, port);
 expressServer.start();
 
 // Set up the Winston logging.
-winston.level = 'debug';
+winston.add(winston.transports.File, {
+    filename: 'client.log',
+    maxFiles: 1,
+    colorize: false,
+    timestamp: true,
+    datePattern: '.yyyy-MM-ddTHH-mm',
+    maxsize: 1000000,
+    json: false
+});
+winston.level = "debug";
 const now = new Date();
 winston.log("info", `Application starting at ${now}`);
 
