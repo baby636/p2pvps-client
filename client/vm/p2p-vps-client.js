@@ -1,8 +1,8 @@
 /*
-  This is the primary 'governor' application that drives a Client devices and allows it to communicate
-  with a P2P VPS Server. The scope of this application is to:
+  This is the primary 'governor' application that drives a Client device and allows it to communicate
+  with a P2P VPS Server. The scope of this application covers:
 
-  * It reads the deviceGUID.json file and registers the Client device with the P2P VPS server.
+  * It reads the device-config.json file and registers the Client device with the P2P VPS server.
 
   * It builds the Docker container with information returned by the server after registration.
 
@@ -16,12 +16,14 @@
   software stops the Docker container and wipes the flash drive. It then reregisters itself with the
   P2P VPS marketplace.
 
+  * If the Client can not make contact with the Server, it quietly retries to make contact every 2 minutes.
+
   Specifications for this program can be found here:
-  https://github.com/RPiOVN/p2pvps-server/blob/b1fd8e709f264db4a1d869e8939033ca39a895da/specifications/client-specification.md
+  https://github.com/P2PVPS/p2pvps-server/blob/master/specifications/client-specification.md
 */
 
 /*
- * Copyright 2017 Chris Troutner & RPiOVN.org
+ * Copyright 2017 Chris Troutner & P2PVPS.org
  * MIT License. See LICENSE.md for details.
  */
 
@@ -50,7 +52,7 @@ let checkExpirationTimer;
  */
 
 //Dev Note: I should make debugState a local varible in each library, so that I can turn debugging on
-//for specific features like WiFi, GPS, data logging, server interface, etc.
+//for specific features data logging, server interface, etc.
 global.debugState = true; //Used to turn verbose debugging off or on.
 
 // Read in device-config.json file
@@ -63,73 +65,20 @@ try {
   process.exit(1);
 }
 
-//Marketplace server
-global.serverIp = deviceConfig.serverIp;
-global.serverPort = deviceConfig.serverPort;
+// Each type of client shell will have a unique write-files.js library.
+const WriteFiles = require("./lib/write-files.js");
+const writeFiles = new WriteFiles(deviceConfig);
 
-//SSH server used for setting up a reverse SSH connection to the Client.
-//global.sshServerIp = "174.138.35.118";
-global.sshServerIp = deviceConfig.sshServer;
-global.sshServerPort = deviceConfig.sshServerPort;
+// Utility functions for dealing with the P2P VPS server. Shared by all clients.
+const P2pVpsServer = require("../lib/p2p-vps-server.js");
+const p2pVpsServer = new P2pVpsServer(deviceConfig);
 
-//TODO Rewrite the contstructor to feed in values from the config file.
-//Local libraries based on the different featuers of this software
-const writeFiles = require("./lib/write-files.js");
-global.writeFiles = new writeFiles.Constructor();
-const p2pVpsServer = require("./lib/p2p-vps-server.js");
-global.p2pVpsServer = new p2pVpsServer.Constructor();
+// Create an Express server. Future development will allow serving of webpages and creation of Client API.
+const ExpressServer = require("../lib/express-server.js");
+const expressServer = new ExpressServer(app, port);
+expressServer.start();
 
-/*
- * Use Handlebars for templating
- */
-const exphbs = require("express3-handlebars");
-let hbs;
-
-// For gzip compression
-//app.use(express.compress());
-
-/*
- * Config for Production and Development
- */
-app.engine(
-  "handlebars",
-  exphbs({
-    // Default Layout and locate layouts and partials
-    defaultLayout: "main",
-    layoutsDir: "views/layouts/",
-    partialsDir: "views/partials/",
-  })
-);
-
-// Locate the views
-app.set("views", `${__dirname}/views`);
-
-// Locate the assets
-app.use(express.static(`${__dirname}/assets`));
-
-// Set Handlebars
-app.set("view engine", "handlebars");
-
-// Index Page
-app.get("/", function(request, response, next) {
-  response.render("index");
-});
-
-/* Start up the Express web server */
-app.listen(process.env.PORT || port).on("error", expressErrorHandler);
-//console.log('Express started on port ' + port);
-
-// Handle generic errors thrown by the express application.
-function expressErrorHandler(err) {
-  if (err.code === "EADDRINUSE")
-    console.error(`Port ${port} is already in use. Is this program already running?`);
-  else console.error(JSON.stringify(err, null, 2));
-
-  console.error("Express could not start!");
-  process.exit(0);
-}
-
-// This is a high-level function used to register the client with this Client with the Server.
+// This is a high-level function used to register this Client with the Server.
 // It calls the registration function, writes out the support files, builds the Docker container,
 // and launches the Docker container.
 function registerDevice() {
@@ -144,7 +93,7 @@ function registerDevice() {
   };
 
   const config = {
-    deviceId: deviceGUID.deviceId,
+    deviceId: deviceConfig.deviceId,
     deviceSpecs: deviceSpecs,
   };
 
@@ -154,10 +103,10 @@ function registerDevice() {
   };
 
   // Register with the server.
-  global.p2pVpsServer
+  p2pVpsServer
     .register(config)
 
-    // Write out support files (Dockerfile, reverse-tunnel.js)
+    // Write out support files (Dockerfile, config.json)
     .then(clientData => {
       //debugger;
 
@@ -165,18 +114,14 @@ function registerDevice() {
       global.clientData = clientData;
 
       return (
-        global.writeFiles
-          // Write out config.json file.
-          .writeClientConfig(clientData.port, deviceGUID.deviceId)
+        // Write out the Dockerfile.
+        writeFiles
+          .writeDockerfile(clientData.port, clientData.username, clientData.password)
 
-          // Write out the Dockerfile.
-          .then(() =>
-            global.writeFiles.writeDockerfile(
-              clientData.port,
-              clientData.username,
-              clientData.password
-            )
-          )
+          // Write out the config file.
+          .then(() => {
+            return writeFiles.writeClientConfig();
+          })
 
           .catch(err => {
             console.error("Problem writing out support files: ", err);
@@ -186,7 +131,7 @@ function registerDevice() {
 
     // Build the Docker container.
     .then(() => {
-      return execa("./buildImage", undefined, execaOptions)
+      return execa("./lib/buildImage", undefined, execaOptions)
         .then(result => {
           //debugger;
           console.log(result.stdout);
@@ -201,7 +146,7 @@ function registerDevice() {
 
     // Run the Docker container
     .then(() => {
-      return execa("./runImage", undefined, execaOptions)
+      return execa("./lib/runImage", undefined, execaOptions)
         .then(result => {
           //debugger;
           console.log(result.stdout);
@@ -239,9 +184,8 @@ function checkExpiration() {
   console.log(`checkExpiration() running at ${now}`);
 
   // Get the expiration date for this device from the server.
-  global.p2pVpsServer
-    //.sendHeartBeat(deviceGUID.deviceId)
-    .getExpiration(deviceGUID.deviceId)
+  p2pVpsServer
+    .getExpiration(deviceConfig.deviceId)
 
     // Check expiration date.
     .then(expiration => {
@@ -256,8 +200,7 @@ function checkExpiration() {
       if (expirationDate.getTime() < now.getTime()) {
         // Stop the docker container.
         console.log("Stopping the docker container");
-        //const stream = execa("docker", ["stop", "renter-shell"]).stdout;
-        const stream = execa("./stopImage").stdout;
+        const stream = execa("./lib/stopImage").stdout;
 
         stream.pipe(process.stdout);
 
@@ -265,7 +208,7 @@ function checkExpiration() {
           getStream(stream)
             // Clean up any orphaned docker images.
             .then(output => {
-              const stream2 = execa("./cleanupImages").stdout;
+              const stream2 = execa("./lib/cleanupImages").stdout;
 
               stream2.pipe(process.stdout);
 

@@ -1,4 +1,4 @@
-FROM ubuntu:17.04
+FROM resin/rpi-raspbian
 MAINTAINER Chris Troutner <chris.troutner@gmail.com>
 RUN apt-get -y update
 RUN apt-get install -y openssh-server
@@ -8,7 +8,6 @@ RUN mkdir /var/run/sshd
 RUN sed 's@sessions*requireds*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
 ENV NOTVISIBLE "in users profile"
 RUN echo "export VISIBLE=now" >> /etc/profile
-RUN apt-get install -y curl
 RUN curl -sL https://deb.nodesource.com/setup_8.x -o nodesource_setup.sh
 RUN bash nodesource_setup.sh
 RUN apt-get install -y nodejs
@@ -23,8 +22,7 @@ COPY connect-client.js connect-client.js
 COPY package.json package.json
 COPY config.json config.json
 RUN chmod 775 finalsetup
-RUN useradd -ms /bin/bash Kprwzas0NS
-RUN echo Kprwzas0NS:qF9rhInVgo | chpasswd
-EXPOSE 6040
-#ENTRYPOINT ["./finalsetup", "node", "dummyapp.js"]
+RUN useradd -ms /bin/bash bbb
+RUN echo bbb:ccc | chpasswd
+EXPOSE aaa
 ENTRYPOINT ["./finalsetup", "node", "connect-client.js"]

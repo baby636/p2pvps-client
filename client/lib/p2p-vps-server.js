@@ -8,26 +8,31 @@
 "use strict";
 
 // Libraries
-const fs = require("fs");
+//const fs = require("fs");
 const request = require("request"); //Used for CURL requests.
 const rp = require("request-promise");
 
 // Globals
-let globalThis; //Used in functions below when 'this' loses context.
+//let globalThis; //Used in functions below when 'this' loses context.
 
-function Constructor() {
-  globalThis = this;
+class P2pVpsServer {
+  constructor(deviceConfig) {
+    this.deviceId = deviceConfig.deviceId;
+    this.serverIp = deviceConfig.serverIp;
+    this.serverPort = deviceConfig.serverPort;
+    this.sshServer = deviceConfig.sshServer;
+    this.sshServerPort = deviceConfig.sshServerPort;
+  }
 
-  // Register with the server.
-  this.register = function(config) {
-    return new Promise(function(resolve, reject) {
+  register(config) {
+    return new Promise((resolve, reject) => {
       //debugger;
 
       //Register with the server by sending the benchmark data.
       request.post(
         {
-          url: `http://${global.serverIp}:${global.serverPort}/api/devicePublicData/${
-            config.deviceId
+          url: `http://${this.serverIp}:${this.serverPort}/api/devicePublicData/${
+            this.deviceId
           }/register`,
           form: config.deviceSpecs,
         },
@@ -72,10 +77,10 @@ function Constructor() {
         }
       );
     });
-  };
+  }
 
   // This function returns a devicePublicModel given the deviceId.
-  this.getDevicePublicModel = function(deviceId) {
+  getDevicePublicModel(deviceId) {
     //debugger;
 
     const options = {
@@ -91,10 +96,10 @@ function Constructor() {
 
       return data.collection;
     });
-  };
+  }
 
   // This function returns a devices expiration date given the deviceId.
-  this.getExpiration = function(deviceId) {
+  getExpiration(deviceId) {
     //debugger;
 
     const options = {
@@ -111,9 +116,7 @@ function Constructor() {
 
       return new Date(data.expiration);
     });
-  };
-
-  return this;
+  }
 }
 
-exports.Constructor = Constructor;
+module.exports = P2pVpsServer;
