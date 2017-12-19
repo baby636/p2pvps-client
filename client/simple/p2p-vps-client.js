@@ -248,6 +248,7 @@ function checkExpiration() {
       //const now = new Date();
 
       console.log(`Expiration date: ${expiration}`);
+      console.log(`Expiration type: ${typof(expiration)}`);
 
       const expirationDate = new Date(expiration);
 

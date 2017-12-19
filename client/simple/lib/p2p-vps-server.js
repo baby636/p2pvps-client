@@ -93,7 +93,7 @@ function Constructor() {
     });
   };
 
-  // This function returns a devicePublicModel given the deviceId.
+  // This function returns a devices expiration date given the deviceId.
   this.getExpiration = function(deviceId) {
     //debugger;
 
