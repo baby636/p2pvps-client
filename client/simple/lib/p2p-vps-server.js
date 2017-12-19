@@ -109,7 +109,7 @@ function Constructor() {
       if (data.expiration === undefined)
         throw `Could not retrieve expiration for device ${deviceId}`;
 
-      return data.expiration;
+      return new Date(data.expiration);
     });
   };
 
