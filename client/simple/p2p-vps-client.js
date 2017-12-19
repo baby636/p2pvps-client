@@ -248,7 +248,7 @@ function checkExpiration() {
       //const now = new Date();
 
       console.log(`Expiration date: ${expiration}`);
-      console.log(`Expiration type: ${typeof(expiration)}`);
+      console.log(`Expiration type: ${typeof expiration}`);
 
       const expirationDate = new Date(expiration);
 
@@ -287,7 +287,7 @@ function checkExpiration() {
       debugger;
       console.error("Error in checkExpiration(): ");
 
-      if (err.statusCode >= 500 || err.name === 'RequestError') {
+      if (err.statusCode >= 500 || err.name === "RequestError") {
         console.error("Connection to the server was refused. Will try again.");
       } else {
         debugger;
