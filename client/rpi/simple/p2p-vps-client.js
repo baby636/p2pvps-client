@@ -2,7 +2,7 @@
   This is the primary 'governor' application that drives a Client devices and allows it to communicate
   with a P2P VPS Server. The scope of this application is to:
 
-  * It reads the deviceGUID.json file and registers the Client device with the P2P VPS server.
+  * It reads the device-config.json file and registers the Client device with the P2P VPS server.
 
   * It builds the Docker container with information returned by the server after registration.
 
@@ -21,113 +21,50 @@
 */
 
 /*
- * Copyright 2017 Chris Troutner & RPiOVN.org
+ * Copyright 2017 Chris Troutner & P2PVPS.org
  * MIT License. See LICENSE.md for details.
  */
 
 //This file registers with the server
 "use strict";
 
-/*
- * Express Dependencies
- */
+// Dependencies
 const express = require("express");
-const fs = require("fs");
-const http = require("http"); //Used for GET and POST requests
-const request = require("request"); //Used for CURL requests.
-const rp = require("request-promise");
 const getStream = require("get-stream");
-//var Promise = require('node-promise');
-const exec = require("child_process").exec; //Used to execute command line instructions.
 const execa = require("execa");
 
-//Marketplace server
-//global.serverIp = "192.241.214.57";
-global.serverIp = "p2pvps.net";
-global.serverPort = "3001";
-
-//SSH server used for setting up a reverse SSH connection to the Client.
-//global.sshServerIp = "174.138.35.118";
-global.sshServerIp = "p2pvps.net";
-global.sshServerPort = "6100";
-
-//Local libraries based on the different featuers of this software
-const writeFiles = require("./lib/write-files.js");
-global.writeFiles = new writeFiles.Constructor();
-const p2pVpsServer = require("./lib/p2p-vps-server.js");
-global.p2pVpsServer = new p2pVpsServer.Constructor();
-
+// Global Variables
 const app = express();
 const port = 4000;
 let checkExpirationTimer;
 
-/*
- * Global Variables
- */
-
-//Dev Note: I should make debugState a local varible in each library, so that I can turn debugging on
-//for specific features like WiFi, GPS, data logging, server interface, etc.
-global.debugState = true; //Used to turn verbose debugging off or on.
-
-/*
- * Use Handlebars for templating
- */
-const exphbs = require("express3-handlebars");
-let hbs;
-
-// For gzip compression
-//app.use(express.compress());
-
-/*
- * Config for Production and Development
- */
-app.engine(
-  "handlebars",
-  exphbs({
-    // Default Layout and locate layouts and partials
-    defaultLayout: "main",
-    layoutsDir: "views/layouts/",
-    partialsDir: "views/partials/",
-  })
-);
-
-// Locate the views
-app.set("views", `${__dirname}/views`);
-
-// Locate the assets
-app.use(express.static(`${__dirname}/assets`));
-
-// Set Handlebars
-app.set("view engine", "handlebars");
-
-// Index Page
-app.get("/", function(request, response, next) {
-  response.render("index");
-});
-
-/* Start up the Express web server */
-app.listen(process.env.PORT || port).on("error", expressErrorHandler);
-//console.log('Express started on port ' + port);
-
-// Handle generic errors thrown by the express application.
-function expressErrorHandler(err) {
-  if (err.code === "EADDRINUSE")
-    console.error(`Port ${port} is already in use. Is this program already running?`);
-  else console.error(JSON.stringify(err, null, 2));
-
-  console.error("Express could not start!");
-  process.exit(0);
-}
-
-// Read in deviceGUID.json file
-let deviceGUID;
+// Read in device-config.json file
+let deviceConfig;
 try {
-  deviceGUID = require("./deviceGUID.json");
-  console.log(`Registering device ID ${deviceGUID.deviceId}`);
+  deviceConfig = require("./device-config.json");
+  console.log(`Registering device ID ${deviceConfig.deviceId}`);
 } catch (err) {
-  console.error("Could not open the deviceGUID.json file!", err);
+  const msg = "Could not open the device-config.json file! Exiting.";
+  console.error(msg, err);
   process.exit(1);
 }
+
+// Each type of client shell will have a unique write-files.js library.
+const WriteFiles = require("./lib/write-files.js");
+const writeFiles = new WriteFiles(deviceConfig);
+
+// Utility functions for dealing with the P2P VPS server. Shared by all clients.
+const P2pVpsServer = require("../../lib/p2p-vps-server.js");
+const p2pVpsServer = new P2pVpsServer(deviceConfig);
+
+// Create an Express server. Future development will allow serving of webpages and creation of Client API.
+const ExpressServer = require("../../lib/express-server.js");
+const expressServer = new ExpressServer(app, port);
+expressServer.start();
+
+// Initialize the debugging logger.
+const Logger = require("../../lib/logger.js");
+const logr = new Logger();
 
 // This is a high-level function used to register the client with this Client with the Server.
 // It calls the registration function, writes out the support files, builds the Docker container,
@@ -154,7 +91,7 @@ function registerDevice() {
   };
 
   // Register with the server.
-  global.p2pVpsServer
+  p2pVpsServer
     .register(config)
 
     // Write out support files (Dockerfile, reverse-tunnel.js)
@@ -165,57 +102,58 @@ function registerDevice() {
       global.clientData = clientData;
 
       return (
-        global.writeFiles
-          // Write out config.json file.
-          .writeClientConfig(clientData.port, deviceGUID.deviceId)
-
+        writeFiles
           // Write out the Dockerfile.
+          .writeDockerfile(clientData.port, clientData.username, clientData.password)
+
           .then(() =>
-            global.writeFiles.writeDockerfile(
-              clientData.port,
-              clientData.username,
-              clientData.password
-            )
+            // Write out config.json file.
+            writeFiles.writeClientConfig()
           )
 
           .catch(err => {
-            console.error("Problem writing out support files: ", err);
+            logr.error("Problem writing out support files: ", err);
           })
       );
     })
 
     // Build the Docker container.
     .then(() => {
-      return execa("./buildImage", undefined, execaOptions)
+      logr.log("Building Docker Image.");
+
+      return execa("./lib/buildImage", undefined, execaOptions)
         .then(result => {
           //debugger;
           console.log(result.stdout);
         })
         .catch(err => {
           debugger;
-          console.error("Error while trying to build Docker image!");
-          console.error(JSON.stringify(err, null, 2));
+          console.error("Error while trying to build Docker image!", err);
+          logr.error("Error while trying to build Docker image!", err);
+          logr.error(JSON.stringify(err, null, 2));
           process.exit(1);
         });
     })
 
     // Run the Docker container
     .then(() => {
-      return execa("./runImage", undefined, execaOptions)
+      logr.log("Running the Docker image.");
+
+      return execa("./lib/runImage", undefined, execaOptions)
         .then(result => {
           //debugger;
           console.log(result.stdout);
         })
         .catch(err => {
           debugger;
-          console.error("Error while trying to run Docker image!");
-          console.error(JSON.stringify(err, null, 2));
+          logr.error("Error while trying to run Docker image!");
+          logr.error(JSON.stringify(err, null, 2));
           process.exit(1);
         });
     })
 
     .then(() => {
-      console.log("Docker image has been built and is running.");
+      logr.log("Docker image has been built and is running.");
 
       // Begin 10 minutes loop
       checkExpirationTimer = setInterval(function() {
@@ -224,7 +162,7 @@ function registerDevice() {
     })
 
     .catch(err => {
-      console.error("Error in main program: ", err);
+      logr.error("Error in main program: ", err);
       process.exit(1);
     });
 }
@@ -236,28 +174,26 @@ function checkExpiration() {
   debugger;
 
   const now = new Date();
-  console.log(`checkExpiration() running at ${now}`);
+  logr.log(`checkExpiration() running at ${now}`);
 
   // Get the expiration date for this device from the server.
-  global.p2pVpsServer
-    //.sendHeartBeat(deviceGUID.deviceId)
+  p2pVpsServer
     .getExpiration(deviceGUID.deviceId)
 
     // Check expiration date.
     .then(expiration => {
       //const now = new Date();
 
-      console.log(`Expiration date: ${expiration}`);
-      console.log(`Expiration type: ${typeof expiration}`);
+      logr.log(`Expiration date: ${expiration}`);
+      logr.debug(`Expiration type: ${typeof expiration}`);
 
       const expirationDate = new Date(expiration);
 
       // If the expiration date has been reached
       if (expirationDate.getTime() < now.getTime()) {
         // Stop the docker container.
-        console.log("Stopping the docker container");
-        //const stream = execa("docker", ["stop", "renter-shell"]).stdout;
-        const stream = execa("./stopImage").stdout;
+        logr.log("Stopping the docker container");
+        const stream = execa("./lib/stopImage").stdout;
 
         stream.pipe(process.stdout);
 
@@ -265,7 +201,7 @@ function checkExpiration() {
           getStream(stream)
             // Clean up any orphaned docker images.
             .then(output => {
-              const stream2 = execa("./cleanupImages").stdout;
+              const stream2 = execa("./lib/cleanupImages").stdout;
 
               stream2.pipe(process.stdout);
 
@@ -285,13 +221,13 @@ function checkExpiration() {
 
     .catch(err => {
       debugger;
-      console.error("Error in checkExpiration(): ");
+      logr.error("Error in checkExpiration(): ");
 
       if (err.statusCode >= 500 || err.name === "RequestError") {
-        console.error("Connection to the server was refused. Will try again.");
+        logr.error("Connection to the server was refused. Will try again.");
       } else {
         debugger;
-        console.error(JSON.stringify(err, null, 2));
+        logr.error(JSON.stringify(err, null, 2));
       }
     });
 }

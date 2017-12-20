@@ -30,30 +30,15 @@
 //This file registers with the server
 "use strict";
 
-/*
- * Express Dependencies
- */
+// Express Dependencies
 const express = require("express");
-//const fs = require("fs");
-//const http = require("http"); //Used for GET and POST requests
-//const request = require("request"); //Used for CURL requests.
-//const rp = require("request-promise");
 const getStream = require("get-stream");
-//var Promise = require('node-promise');
-//const exec = require("child_process").exec; //Used to execute command line instructions.
 const execa = require("execa");
 
+// Global Variables
 const app = express();
 const port = 4000;
 let checkExpirationTimer;
-
-/*
- * Global Variables
- */
-
-//Dev Note: I should make debugState a local varible in each library, so that I can turn debugging on
-//for specific features data logging, server interface, etc.
-global.debugState = true; //Used to turn verbose debugging off or on.
 
 // Read in device-config.json file
 let deviceConfig;
@@ -138,7 +123,7 @@ function registerDevice() {
 
     // Build the Docker container.
     .then(() => {
-      logr.log('Building Docker Image.');
+      logr.log("Building Docker Image.");
 
       return execa("./lib/buildImage", undefined, execaOptions)
         .then(result => {
@@ -156,7 +141,7 @@ function registerDevice() {
 
     // Run the Docker container
     .then(() => {
-      logr.log('Running the Docker image.')
+      logr.log("Running the Docker image.");
 
       return execa("./lib/runImage", undefined, execaOptions)
         .then(result => {

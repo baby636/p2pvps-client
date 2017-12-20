@@ -9,8 +9,6 @@
 
 const fs = require("fs");
 
-let globalThis; //Used in functions below when 'this' loses context.
-
 class WriteFiles {
   constructor(deviceConfig) {
     this.port = "";
@@ -80,17 +78,6 @@ ENTRYPOINT ["./finalsetup", "node", "connect-client.js"]
     //debugger;
 
     return new Promise((resolve, reject) => {
-      const fileString =
-        `${"{\n" + '"deviceId": "'}${this.deviceId}",\n` +
-        //'"serverIp": "192.241.214.57",\n'+
-        `"serverIp": "p2pvps.net",\n` +
-        `"serverPort": "3001",\n` +
-        //'"sshServer": "174.138.35.118",\n'+
-        `"sshServer": "p2pvps.net",\n` +
-        `"sshServerPort": 6100,\n` +
-        `"sshTunnelPort": ${this.port}\n` +
-        `}\n`;
-
       const fileJSON = {
         deviceId: this.deviceId,
         serverIp: this.serverIp,
