@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 RPiOVN.org
+ * Copyright 2017 Chris Troutner & P2PVPS.org
  * Licensing Information: MIT License
  *
  * This program writes out the Dockerfile and various configuration files.
@@ -55,8 +55,9 @@ RUN chmod 775 finalsetup
 RUN useradd -ms /bin/bash ${username}
 RUN echo ${username}:${password} | chpasswd
 EXPOSE ${port}
-#ENTRYPOINT [\"./finalsetup\", \"node\", \"dummyapp.js\"]
-ENTRYPOINT ["./finalsetup", "node", "connect-client.js"]`;
+#ENTRYPOINT ["./finalsetup", "node", "dummyapp.js"]
+ENTRYPOINT ["./finalsetup", "node", "connect-client.js"]
+`;
 
       fs.writeFile("./output-files/Dockerfile", fileString, function(err) {
         if (err) {
