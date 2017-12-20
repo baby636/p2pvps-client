@@ -21,10 +21,12 @@ COPY finalsetup finalsetup
 COPY connect-client.js connect-client.js
 COPY package.json package.json
 COPY config.json config.json
-COPY reverse-tunnel-generated.js reverse-tunnel.js
-VOLUME /media/storage
 RUN chmod 775 finalsetup
-RUN useradd -ms /bin/bash WJ18Y3xSQO
-RUN echo WJ18Y3xSQO:0MUrYMp8cN | chpasswd
-EXPOSE 6081
+VOLUME /media/storage
+RUN useradd -ms /bin/bash 6ggtePdLuV
+RUN chown -R 6ggtePdLuV /media/storage
+RUN adduser 6ggtePdLuV sudo
+RUN echo 6ggtePdLuV:gvNSpLq4Di | chpasswd
+EXPOSE 6062
+#ENTRYPOINT ["./finalsetup", "node", "dummyapp.js"]
 ENTRYPOINT ["./finalsetup", "node", "connect-client.js"]
