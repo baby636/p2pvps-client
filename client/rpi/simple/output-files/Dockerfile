@@ -18,12 +18,12 @@ RUN npm install
 EXPOSE 3100
 COPY dummyapp.js dummyapp.js
 COPY finalsetup finalsetup
-COPY connectClient.js connectClient.js
+COPY connect-client.js connect-client.js
 COPY package.json package.json
 COPY config.json config.json
-COPY reverse-tunnel-generated.js reverse-tunnel.js
 RUN chmod 775 finalsetup
-RUN useradd -ms /bin/bash ewnwJuhUhs
-RUN echo ewnwJuhUhs:66XRnXXFej | chpasswd
-EXPOSE 6044
-ENTRYPOINT ["./finalsetup", "node", "connectClient.js"]
+RUN useradd -ms /bin/bash 3A2bUsJvZO
+RUN echo 3A2bUsJvZO:8wGCcPI0Mx | chpasswd
+EXPOSE 6057
+#ENTRYPOINT ["./finalsetup", "node", "dummyapp.js"]
+ENTRYPOINT ["./finalsetup", "node", "connect-client.js"]
