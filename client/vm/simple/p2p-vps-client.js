@@ -42,7 +42,6 @@ const getStream = require("get-stream");
 //var Promise = require('node-promise');
 //const exec = require("child_process").exec; //Used to execute command line instructions.
 const execa = require("execa");
-const winston = require("winston");
 
 const app = express();
 const port = 4000;
@@ -62,7 +61,8 @@ try {
   deviceConfig = require("./device-config.json");
   console.log(`Registering device ID ${deviceConfig.deviceId}`);
 } catch (err) {
-  console.error("Could not open the device-config.json file! Exiting.", err);
+  const msg = "Could not open the device-config.json file! Exiting.";
+  console.error(msg, err);
   process.exit(1);
 }
 
@@ -79,24 +79,16 @@ const ExpressServer = require("../../lib/express-server.js");
 const expressServer = new ExpressServer(app, port);
 expressServer.start();
 
-// Set up the Winston logging.
-winston.add(winston.transports.File, {
-    filename: 'client.log',
-    maxFiles: 1,
-    colorize: false,
-    timestamp: true,
-    datePattern: '.yyyy-MM-ddTHH-mm',
-    maxsize: 1000000,
-    json: false
-});
-winston.level = "debug";
-const now = new Date();
-winston.log("info", `Application starting at ${now}`);
+// Initialize the debugging logger.
+const Logger = require("../../lib/logger.js");
+const logr = new Logger();
 
 // This is a high-level function used to register this Client with the Server.
 // It calls the registration function, writes out the support files, builds the Docker container,
 // and launches the Docker container.
 function registerDevice() {
+  logr.debug(`Registering device ${deviceConfig.deviceId}`);
+
   //Simulate benchmark tests with dummy data.
   const now = new Date();
   const deviceSpecs = {
@@ -139,13 +131,15 @@ function registerDevice() {
           })
 
           .catch(err => {
-            console.error("Problem writing out support files: ", err);
+            logr.error("Problem writing out support files: ", err);
           })
       );
     })
 
     // Build the Docker container.
     .then(() => {
+      logr.log('Building Docker Image.');
+
       return execa("./lib/buildImage", undefined, execaOptions)
         .then(result => {
           //debugger;
@@ -153,29 +147,32 @@ function registerDevice() {
         })
         .catch(err => {
           debugger;
-          console.error("Error while trying to build Docker image!");
-          console.error(JSON.stringify(err, null, 2));
+          console.error("Error while trying to build Docker image!", err);
+          logr.error("Error while trying to build Docker image!", err);
+          logr.error(JSON.stringify(err, null, 2));
           process.exit(1);
         });
     })
 
     // Run the Docker container
     .then(() => {
+      logr.log('Running the Docker image.')
+
       return execa("./lib/runImage", undefined, execaOptions)
         .then(result => {
           //debugger;
-          console.log(result.stdout);
+          logr.log(result.stdout);
         })
         .catch(err => {
           debugger;
-          console.error("Error while trying to run Docker image!");
-          console.error(JSON.stringify(err, null, 2));
+          logr.error("Error while trying to run Docker image!");
+          logr.error(JSON.stringify(err, null, 2));
           process.exit(1);
         });
     })
 
     .then(() => {
-      console.log("Docker image has been built and is running.");
+      logr.log("Docker image has been built and is running.");
 
       // Begin 10 minutes loop
       checkExpirationTimer = setInterval(function() {
@@ -184,7 +181,7 @@ function registerDevice() {
     })
 
     .catch(err => {
-      console.error("Error in main program: ", err);
+      logr.error("Error in main program: ", err);
       process.exit(1);
     });
 }
@@ -196,7 +193,7 @@ function checkExpiration() {
   debugger;
 
   const now = new Date();
-  console.log(`checkExpiration() running at ${now}`);
+  logr.log(`checkExpiration() running at ${now}`);
 
   // Get the expiration date for this device from the server.
   p2pVpsServer
@@ -206,15 +203,15 @@ function checkExpiration() {
     .then(expiration => {
       //const now = new Date();
 
-      console.log(`Expiration date: ${expiration}`);
-      console.log(`Expiration type: ${typeof expiration}`);
+      logr.log(`Expiration date: ${expiration}`);
+      logr.debug(`Expiration type: ${typeof expiration}`);
 
       const expirationDate = new Date(expiration);
 
       // If the expiration date has been reached
       if (expirationDate.getTime() < now.getTime()) {
         // Stop the docker container.
-        console.log("Stopping the docker container");
+        logr.log("Stopping the docker container");
         const stream = execa("./lib/stopImage").stdout;
 
         stream.pipe(process.stdout);
@@ -243,13 +240,13 @@ function checkExpiration() {
 
     .catch(err => {
       debugger;
-      console.error("Error in checkExpiration(): ");
+      logr.error("Error in checkExpiration(): ");
 
       if (err.statusCode >= 500 || err.name === "RequestError") {
-        console.error("Connection to the server was refused. Will try again.");
+        logr.error("Connection to the server was refused. Will try again.");
       } else {
         debugger;
-        console.error(JSON.stringify(err, null, 2));
+        logr.error(JSON.stringify(err, null, 2));
       }
     });
 }
