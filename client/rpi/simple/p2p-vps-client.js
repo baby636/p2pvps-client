@@ -81,7 +81,7 @@ function registerDevice() {
   };
 
   const config = {
-    deviceId: deviceGUID.deviceId,
+    deviceId: deviceConfig.deviceId,
     deviceSpecs: deviceSpecs,
   };
 
@@ -178,7 +178,7 @@ function checkExpiration() {
 
   // Get the expiration date for this device from the server.
   p2pVpsServer
-    .getExpiration(deviceGUID.deviceId)
+    .getExpiration(deviceConfig.deviceId)
 
     // Check expiration date.
     .then(expiration => {
