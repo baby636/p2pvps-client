@@ -207,7 +207,7 @@ function checkExpiration() {
       if (expirationDate.getTime() < now.getTime()) {
         // Stop the docker container.
         logr.log("Stopping the docker container");
-        const stream = execa("./stopImage").stdout;
+        const stream = execa("./lib/stopImage").stdout;
 
         stream.pipe(process.stdout);
 
@@ -215,7 +215,7 @@ function checkExpiration() {
           getStream(stream)
             // Clean up any orphaned docker images.
             .then(output => {
-              const stream2 = execa("./cleanupImages").stdout;
+              const stream2 = execa("./lib/cleanupImages").stdout;
 
               stream2.pipe(process.stdout);
 
