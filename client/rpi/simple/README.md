@@ -57,6 +57,7 @@ then opening a new terminal:
 `sudo usermod -aG docker pi`
 
 7. Now, downgrade Docker (until they fix issues with the newer versions):
+
 `sudo apt install docker-ce=17.09.0~ce-0~raspbian`
 
 8. (optional) create a directory for your node applications, like this one:
