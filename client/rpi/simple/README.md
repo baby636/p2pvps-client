@@ -95,7 +95,8 @@ npm install
 14. Get your device GUID from the P2P VPS marketplace. This is provided in
 the *Owned Devices view* by clicking the *+Add New Device* button. Paste this GUID into the `device-config.json` file.
 
-15. Launch the simple client by running:
+15. Launch the simple client. The first time will take a while as it will need to download and
+build several Docker containers:
 
 `node p2p-vps-client.js`
 
