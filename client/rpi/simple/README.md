@@ -8,15 +8,21 @@ However, by keeping it simple, this client is preferred for testing. If you're a
 setting up a P2P VPS client, you should start by following the directions below.
 
 ## Installation
-1. These instructions assume you are starting with a Raspberry Pi v3 B+ with an 8GB or larger
+These instructions assume you are starting with a Raspberry Pi v3 B+ with an 8GB or larger
 SD card. It also assumes that you are starting with a fresh install of Raspbian OS, which can be
 [installed via NOOBS](https://www.raspberrypi.org/documentation/installation/noobs.md).
 
-2. After installing Raspbian, you need to
+### Device Configuration
+
+1. After installing Raspbian, you need to
 [enable SSH](https://www.raspberrypi.org/documentation/remote-access/ssh/) and ensure you can
 connect to your RPi over your local area network using SSH. I prefer to use
 [Putty](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html) as my SSH terminal on
 Windows. It's light weight and powerful.
+
+2. The first thing to do after logging into the Raspberry Pi is change the default password.
+From the SSH command line terminal, issue the command `passwd` and change the default password
+for the user `pi`.
 
 3. A fresh install of Raspbian on an 8GB card does not leave much room. If you plan to designate
 this device as a dedicated VPS, it will be advantageous to remove a lot of unneeded software.
