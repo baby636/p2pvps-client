@@ -4,7 +4,46 @@ a Raspbian-based Docker container with SSH shell access. There is no persistent 
 so everything is held in memory and deleted if the device is rebooted. The SSH user also
 does not have sudo privileges so is pretty strongly restricted in what they can do.
 
+However, by keeping it simple, this client is preferred for testing. If you're a beginner at
+setting up a P2P VPS client, you should start by following the directions below.
+
 ## Installation
+1. These instructions assume you are starting with a Raspberry Pi v3 B+ with an 8GB or larger
+SD card. It also assumes that you are starting with a fresh install of Raspbian OS, which can be
+[installed via NOOBS](https://www.raspberrypi.org/documentation/installation/noobs.md).
+
+2. After installing Raspbian, you need to
+[enable SSH](https://www.raspberrypi.org/documentation/remote-access/ssh/) and ensure you can
+connect to your RPi over your local area network using SSH. I prefer to use
+[Putty](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html) as my SSH terminal on
+Windows. It's light weight and powerful.
+
+3. A fresh install of Raspbian on an 8GB card does not leave much room. If you plan to designate
+this device as a dedicated VPS, it will be advantageous to remove a lot of unneeded software.
+Follow the commands below to update your device and remove unneeded software.
+
+```
+sudo apt-get --purge -y remove libreoffice libreoffice-avmedia-backend-gstreamer libreoffice-base libreoffice-base-core libreoffice-base-drivers libreoffice-calc libreoffice-common libreoffice-core libreoffice-draw libreoffice-gtk libreoffice-impress libreoffice-java-common libreoffice-math libreoffice-report-builder-bin libreoffice-sdbc-hsqldb libreoffice-style-galaxy libreoffice-writer bluej wolfram-engine scratch geany geany-common greenfoot sonic-pi
+
+sudo apt-get --purge -y remove minecraft-pi chromium-browser
+
+sudo apt-get -y autoremove
+
+sudo apt-get -y update
+
+sudo apt-get -y remove nodejs
+curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+sudo apt-get install -y nodejs build-essential
+
+sudo apt-get -y upgrade
+```
+
+4. You'll also need to install Docker on the RPi:
+```
+curl -sSL https://get.docker.com | sh
+sudo apt install docker-ce=17.09.0~ce-0~raspbian
+```
+
 1. Setup the Client program by running `npm install`.
 
 2. Get your device GUID from the P2P VPS marketplace. This is provided in the *Owned Devices view* by clicking
