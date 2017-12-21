@@ -48,38 +48,58 @@ sudo apt-get install -y nodejs build-essential
 sudo apt-get -y upgrade
 ```
 
-5. You'll also need to install Docker on the RPi. Prior to running the instructions below,
+5. (optional) For renting out as a VPS, I usually hard connect the RPi with an ethernet cord. That
+means I can disable to the WiFi and Bluetooth to reduce power, save money, and prevent an attack
+vector. It's easy to disable by adding these two lines to the bottom of `/boot/config.txt`:
+```
+dtoverlay=pi3-disable-wifi
+pi3-disable-bt
+```
+
+6. You'll also need to install Docker on the RPi. Prior to running the instructions below,
 this is a great time to reboot your device. It seems to prevent errors with installing Docker.
 
 `curl -sSL https://get.docker.com | sh`
 
-6. Follow the on-screen instructions by adding the user 'pi' to the docker group,
-then opening a new terminal:
+7. Follow the on-screen instructions to add the user 'pi' to the docker group.
+You'll need to open a new terminal after entering this instruction:
 
 `sudo usermod -aG docker pi`
 
-7. Now, downgrade Docker (until they fix issues with the newer versions):
+8. Now, downgrade Docker (until they fix issues with the newer versions):
 
 `sudo apt install docker-ce=17.09.0~ce-0~raspbian`
 
-8. (optional) create a directory for your node applications, like this one:
+9. (optional) create a directory for your node applications, like this one:
 
 `mkdir node`
 
-9. Clone this repository:
+10. Clone this repository:
 
 `git clone https://github.com/P2PVPS/p2pvps-client`
 
-10. Setup the Client program by running:
+11. Setup the Client program by running:
 ```
 cd p2pvps-client
 npm install
 ```
 
-2. Get your device GUID from the P2P VPS marketplace. This is provided in the *Owned Devices view* by clicking
-the *+Add New Device* button. Paste this GUID into the `deviceGUID.json` file.
+12. Change into the RPi simple client directory:
 
-3. Generate the files you need by running `node registerDevice.js`. Take note of the username, password, and port.
+`cd client/rpi/simple/`
+
+13. Install the dependencies:
+
+`npm install`
+
+14. Get your device GUID from the P2P VPS marketplace. This is provided in
+the *Owned Devices view* by clicking the *+Add New Device* button. Paste this GUID into the `device-config.json` file.
+
+15. Launch the simple client by running:
+
+`node p2p-vps-client.js`
+
+15. Generate the files you need by running `node registerDevice.js`. Take note of the username, password, and port.
 
 4. Build the generated Dockerfile by running the bash script `./buildImage`.
 
