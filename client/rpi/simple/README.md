@@ -50,10 +50,12 @@ sudo apt-get -y upgrade
 
 5. You'll also need to install Docker on the RPi. Prior to running the instructions below,
 this is a great time to reboot your device. It seems to prevent errors with installing Docker.
+
 `curl -sSL https://get.docker.com | sh`
 
-6. Follow the on-screen instuctions by adding the user 'pi' to the docker group,
+6. Follow the on-screen instructions by adding the user 'pi' to the docker group,
 then opening a new terminal:
+
 `sudo usermod -aG docker pi`
 
 7. Now, downgrade Docker (until they fix issues with the newer versions):
@@ -61,9 +63,11 @@ then opening a new terminal:
 `sudo apt install docker-ce=17.09.0~ce-0~raspbian`
 
 8. (optional) create a directory for your node applications, like this one:
+
 `mkdir node`
 
 9. Clone this repository:
+
 `git clone https://github.com/P2PVPS/p2pvps-client`
 
 10. Setup the Client program by running:
