@@ -24,8 +24,9 @@ Windows. It's light weight and powerful.
 From the SSH command line terminal, issue the command `passwd` and change the default password
 for the user `pi`.
 
-3. A fresh install of Raspbian on an 8GB card does not leave much room. If you plan to designate
-this device as a dedicated VPS, it will be advantageous to remove a lot of unneeded software.
+3. (optional) A fresh install of Raspbian on an 8GB card does not leave much room.
+If you plan to designate this device as a dedicated VPS, it will be advantageous
+to remove a lot of unneeded software.
 Follow the commands below to update your device and remove unneeded software.
 
 ```
@@ -34,7 +35,10 @@ sudo apt-get --purge -y remove libreoffice libreoffice-avmedia-backend-gstreamer
 sudo apt-get --purge -y remove minecraft-pi chromium-browser
 
 sudo apt-get -y autoremove
+```
 
+4. This is a great time to update the software on the device, including any security patches.
+```
 sudo apt-get -y update
 
 sudo apt-get -y remove nodejs
@@ -44,7 +48,7 @@ sudo apt-get install -y nodejs build-essential
 sudo apt-get -y upgrade
 ```
 
-4. You'll also need to install Docker on the RPi:
+5. You'll also need to install Docker on the RPi:
 ```
 curl -sSL https://get.docker.com | sh
 sudo apt install docker-ce=17.09.0~ce-0~raspbian
