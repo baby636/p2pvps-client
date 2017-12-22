@@ -2,7 +2,7 @@
 The code in this directory allow device Owners to create a Renter shell with
 persistent storage. Also, unlike the [simple shell](../simple), the Renter has
 sudo privileges in this flash shell. *However, it is much easier to debug issues if
-you build the [simple shell](../simple) *before* building this client.*
+you build the [simple shell](../simple) **before** building this client.*
 
 It is **strongly** recommended that device
 owners do not use the SD card for persistent storage, and instead use a dedicated
