@@ -17,7 +17,11 @@ with this shell, run the following commands:
 
 1. Follow steps 1 through 11 for the [simple client](../simple).
 
-2. By default, flash drives plugged into the Raspberry Pi's USB port are identified
+2. Create a new mount point with this command:
+
+`sudo mkdir /media/usb`
+
+3. By default, flash drives plugged into the Raspberry Pi's USB port are identified
 as */dev/sda1* by the operating system. Run the following command and note the
 `PARTUUID` value:
 
@@ -25,8 +29,20 @@ as */dev/sda1* by the operating system. Run the following command and note the
 
 output: */dev/sda1: UUID="8dd06116-a29c-459f-9002-c1cccd7892d5" TYPE="ext4" **PARTUUID="eb5e7935-01"***
 
+4. Add the following line to `/etc/fstab` with the command `sudo nano /etc/fstab`. Replace
+`eb5e7935-01` with the value from your own device.
+Note: You can brick your RPi if this line is malformed. This would require re-loading NOOBS.
 
-1. First, prepare the USB flash drive for use by formatting and mounting it. Run the script `./prepFlashStorage`
+`PARTUUID=eb5e7935-01 /media/usb ext4 defaults 0 0`
+
+5. Reboot the RPi. When the device reboots, the flash drive will automatically be mounted
+to `/media/usb`.
+
+6. Prepare the USB flash drive for use by formatting and mounting it.
+Ensure you are in the `p2pvps-client/client/rpi/flash-storage` directory.
+Run the flash preparation script with this command:
+
+`./lib/prep-flash-storage`
 
 2. Update the `deviceGUID.json` file with the GUID provided by the P2P VPS Marketplace. The easiest way
 to edit file is with `nano deviceGUID.json`.

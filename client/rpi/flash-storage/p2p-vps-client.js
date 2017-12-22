@@ -119,7 +119,7 @@ function registerDevice() {
     .then(() => {
       logr.log("Wiping and mounting flash drive.");
 
-      return execa("./lib/prepFlashStorage", undefined, execaOptions)
+      return execa("./lib/prep-flash-storage", undefined, execaOptions)
         .then(result => {
           debugger;
           logr.log(result.stdout);
