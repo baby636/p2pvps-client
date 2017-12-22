@@ -12,66 +12,56 @@ These instructions assume you are starting with a fresh installation of Ubuntu 1
 
 ### Device Configuration
 
-4. This is a great time to update the software on the device, including any security patches.
+1. This is a great time to update the software on the device, including any security patches.
 ```
 sudo apt-get -y update
-
-sudo apt-get -y remove nodejs
-curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
-sudo apt-get install -y nodejs build-essential
 
 sudo apt-get -y upgrade
 ```
 
-6. You'll also need to install Docker on the RPi. Prior to running the instructions below,
+2. This installation also assumes you are using node v8 or higher. You can install it with:
+```
+sudo apt-get -y remove nodejs
+curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+sudo apt-get install -y nodejs build-essential
+```
+
+3. You'll also need to install Docker. Prior to running the instructions below,
 this is a great time to reboot your device. It seems to prevent errors with installing Docker.
 
 `curl -sSL https://get.docker.com | sh`
 
-7. Follow the on-screen instructions to add the user 'pi' to the docker group.
+4. Follow the on-screen instructions to add the user 'pi' to the docker group.
 You'll need to open a new terminal after entering this instruction:
 
 `sudo usermod -aG docker pi`
 
-8. Now, downgrade Docker (until they fix issues with the newer versions):
-
-`sudo apt install docker-ce=17.09.0~ce-0~raspbian`
-
-9. (optional) create a directory for your node applications, like this one:
+5. (optional) create a directory for your node applications, like this one:
 
 `mkdir node`
+`cd node`
 
-10. Clone this repository:
+6. Clone this repository:
 
 `git clone https://github.com/P2PVPS/p2pvps-client`
 
-11. Setup the Client program by running:
+7. Setup the Client program by running:
 ```
-cd p2pvps-client
+cd p2pvps-client/client
 npm install
 ```
 
-12. Change into the RPi simple client directory:
+8. Change into the VM simple client directory:
 
-`cd client/rpi/simple/`
+`cd vm/simple/`
 
-13. Install the dependencies:
-
-`npm install`
-
-14. Get your device GUID from the P2P VPS marketplace. This is provided in
+9. Get your device GUID from the P2P VPS marketplace. This is provided in
 the *Owned Devices view* by clicking the *+Add New Device* button. Paste this GUID into the `device-config.json` file.
 
-15. Launch the simple client. The first time will take a while as it will need to download and
+10. Launch the simple client. The first time will take a while as it will need to download and
 build several Docker containers:
 
 `node p2p-vps-client.js`
 
-15. Generate the files you need by running `node registerDevice.js`. Take note of the username, password, and port.
-
-4. Build the generated Dockerfile by running the bash script `./buildImage`.
-
-5. Run the Dockercontainer, which will establish a reverse SSH connection, by running the bash script `./runImage`.
-
-6. You can now make an SSH connection to your Raspberry Pi by connecting to the SSH server on the port
-assigned to your device in step 3, using the computer generated username and password.
+11. You can now make an SSH connection to your Raspberry Pi by connecting to the SSH server on the port
+assigned to your device. You can find the SSH login information in the dashboard of the P2P VPS server.
