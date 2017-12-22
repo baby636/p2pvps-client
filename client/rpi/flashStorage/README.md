@@ -8,12 +8,23 @@ It is **strongly** recommended that device
 owners do not use the SD card for persistent storage, and instead use a dedicated
 USB flash drive. The scripts in this directory assume this configuration.
 Reliable **64 GB** flash drives can now be found on [Amazon.com](http://amzn.to/2CZq2eR)
-for under $15. This capacity will be considered the 'standard' storage side for a P2P VPS client.
+for under $15. This capacity will be considered the 'standard' storage size for a P2P VPS client.
 
 ![flash client](../../../images/flash-client.jpg?raw=true "flash client")
 
 To prepare you device for the P2P VPS marketplace
 with this shell, run the following commands:
+
+1. Follow steps 1 through 11 for the [simple client](../simple).
+
+2. By default, flash drives plugged into the Raspberry Pi's USB port are identified
+as */dev/sda1* by the operating system. Run the following command and note the
+`PARTUUID` value:
+```
+sudo blkid
+
+output: /dev/sda1: UUID="8dd06116-a29c-459f-9002-c1cccd7892d5" TYPE="ext4" **PARTUUID="eb5e7935-01"**
+```
 
 1. First, prepare the USB flash drive for use by formatting and mounting it. Run the script `./prepFlashStorage`
 
