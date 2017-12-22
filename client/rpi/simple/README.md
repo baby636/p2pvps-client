@@ -12,6 +12,13 @@ These instructions assume you are starting with a Raspberry Pi v3 B+ with an 8GB
 SD card. It also assumes that you are starting with a fresh install of Raspbian OS, which can be
 [installed via NOOBS](https://www.raspberrypi.org/documentation/installation/noobs.md).
 
+It will take an hour or two for the Raspberry Pi to execute all the instructions in this
+document. If you are provisioning several Pi's for use on the P2P VPS network, it's much
+faster to copy the SD card image after completing setup on the first device. The built-in
+[SD card copier](https://www.raspberrypi.org/blog/another-update-raspbian/) feature in
+Raspbian is the easiest way to do this. Unfortunately, there is no command-line version
+of that application.
+
 ### Device Configuration
 
 1. After installing Raspbian, you need to
@@ -100,11 +107,5 @@ build several Docker containers:
 
 `node p2p-vps-client.js`
 
-15. Generate the files you need by running `node registerDevice.js`. Take note of the username, password, and port.
-
-4. Build the generated Dockerfile by running the bash script `./buildImage`.
-
-5. Run the Dockercontainer, which will establish a reverse SSH connection, by running the bash script `./runImage`.
-
-6. You can now make an SSH connection to your Raspberry Pi by connecting to the SSH server on the port
-assigned to your device in step 3, using the computer generated username and password.
+That's it! Once the application presents the message `Docker image has been built and is running.`,
+your device is now connected to the P2P VPS server and listed on the market for rent.
