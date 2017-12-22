@@ -44,16 +44,17 @@ Run the flash preparation script with this command:
 
 `./lib/prep-flash-storage`
 
-2. Update the `deviceGUID.json` file with the GUID provided by the P2P VPS Marketplace. The easiest way
-to edit file is with `nano deviceGUID.json`.
+7. Install library dependencies with this command:
 
-3. Register the device with the P2P VPS server by running `node registerDevice.js`
+`npm install`
 
-4. Build the Docker container the Renter will use with `./buildImage`
+8. Get your device GUID from the P2P VPS marketplace. This is provided in
+the *Owned Devices view* by clicking the *+Add New Device* button. Paste this GUID into the `device-config.json` file.
 
-5. After the image has finished building, run the container with `./runImage`.
+9. Launch the simple client. The first time will take a while as it will need to download and
+build several Docker containers:
 
-Done! Your device is now setup to accept renters. From here you can enter it into the P2P VPS Marketplace on p2pvps.net.
+`node p2p-vps-client.js`
 
-To prepare your device for a new renter, bring down the Docker container with the command `docker stop flash-shell`.
-After that completes, start over with step 1.
+That's it! Once the application presents the message `Docker image has been built and is running.`,
+your device is now connected to the P2P VPS server and listed on the market for rent.
