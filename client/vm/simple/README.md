@@ -37,9 +37,10 @@ You'll need to open a new terminal after entering this instruction:
 `sudo usermod -aG docker pi`
 
 5. (optional) create a directory for your node applications, like this one:
-
-`mkdir node`
-`cd node`
+```
+mkdir node
+cd node
+```
 
 6. Clone this repository:
 
