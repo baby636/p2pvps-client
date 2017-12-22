@@ -5,7 +5,9 @@ so everything is held in memory and deleted if the device is rebooted. The SSH u
 does not have sudo privileges so is pretty strongly restricted in what they can do.
 
 However, by keeping it simple, this client is preferred for testing. If you're a beginner at
-setting up a P2P VPS client, you should start by following the directions below.
+setting up a P2P VPS client, you should start by following the directions below. It's also
+much easier to troubleshoot if you build this client **before** building the
+[flashStorage client](../flashStorage).
 
 ## Installation
 These instructions assume you are starting with a Raspberry Pi v3 B+ with an 8GB or larger
