@@ -3,7 +3,10 @@ The code in this directory allow device Owners to create a Renter shell with
 persistent storage. Also, unlike the [simple shell](../simple), the Renter has
 sudo privileges in this flash shell. It is **strongly** recommended that device
 owners do not use the SD card for persistent storage, and instead use a dedicated
-USB flash drive. The scripts in this directory assume this configuration:
+USB flash drive. The scripts in this directory assume this configuration.
+
+Reliable *64 GB* flash drives can now be found on Amazon.com for under $10. This
+capacity will be considered the 'standard' storage side for a P2P VPS client.
 
 ![flash client](../../../images/flash-client.jpg?raw=true "flash client")
 
