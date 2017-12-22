@@ -1,8 +1,8 @@
-# Simple VPS
+# Simple VPS Client
 This is the simplest possible implementation of a Virtual Private Server (VPS). It spins up
 a Ubuntu-based Docker container with SSH shell access. There is no persistent storage,
 so everything is held in memory and deleted if the device is rebooted. The SSH user also
-does not have sudo privileges so is pretty strongly restricted in what they can do.
+does not have sudo privileges, so they're strongly restricted in what they can do.
 
 However, by keeping it simple, this client is preferred for testing. If you're a beginner at
 setting up a P2P VPS client, you should start by following the directions below.
@@ -27,16 +27,17 @@ sudo apt-get install -y nodejs build-essential
 ```
 
 3. You'll also need to install Docker. Prior to running the instructions below,
-this is a great time to reboot your device. It seems to prevent errors with installing Docker.
+this is a great time to reboot your device. It seems to prevent occasional errors
+with installing Docker.
 
 `curl -sSL https://get.docker.com | sh`
 
-4. Follow the on-screen instructions to add the user 'pi' to the docker group.
+4. Follow the on-screen instructions to add your user to the docker group.
 You'll need to open a new terminal after entering this instruction:
 
-`sudo usermod -aG docker pi`
+`sudo usermod -aG docker $USER`
 
-5. (optional) create a directory for your node applications, like this one:
+5. (optional) create a directory for your node applications, like this:
 ```
 mkdir node
 cd node
@@ -46,7 +47,7 @@ cd node
 
 `git clone https://github.com/P2PVPS/p2pvps-client`
 
-7. Setup the Client program by running:
+7. Setup the Client libraries by running:
 ```
 cd p2pvps-client/client
 npm install
@@ -64,5 +65,5 @@ build several Docker containers:
 
 `node p2p-vps-client.js`
 
-11. You can now make an SSH connection to your Raspberry Pi by connecting to the SSH server on the port
-assigned to your device. You can find the SSH login information in the dashboard of the P2P VPS server.
+That's it! Once the application presents the message `Docker image has been built and is running.`,
+your device is now connected to the P2P VPS server and listed on the market for rent.

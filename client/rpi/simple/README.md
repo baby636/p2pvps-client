@@ -1,4 +1,4 @@
-# Simple VPS
+# Simple VPS Client
 This is the simplest possible implementation of a Virtual Private Server (VPS). It spins up
 a Raspbian-based Docker container with SSH shell access. There is no persistent storage,
 so everything is held in memory and deleted if the device is rebooted. The SSH user also
