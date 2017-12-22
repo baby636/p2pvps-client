@@ -1,10 +1,11 @@
-# Flash Storage Renter Shell
-The code in this directory allow device Owners to create a Renter shell with persistant storage. Also, unlike the
-*simple shell*, the Renter has sudo privledges in the flash shell. It is **strongly** recommended that device
-owners do not use the SD card for persistant storage, and instead use a dedicated USB flash drive. The scripts in
-this directory assume this configuration:
+# Renter Shell with Flash Storage
+The code in this directory allow device Owners to create a Renter shell with
+persistent storage. Also, unlike the [simple shell](../simple), the Renter has
+sudo privileges in this flash shell. It is **strongly** recommended that device
+owners do not use the SD card for persistent storage, and instead use a dedicated
+USB flash drive. The scripts in this directory assume this configuration:
 
-![flash client](../../images/flash-client.jpg?raw=true "flash client")
+![flash client](../../../images/flash-client.jpg?raw=true "flash client")
 
 To prepare you device for the P2P VPS marketplace
 with this shell, run the following commands:
