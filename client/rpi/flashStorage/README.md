@@ -20,11 +20,11 @@ with this shell, run the following commands:
 2. By default, flash drives plugged into the Raspberry Pi's USB port are identified
 as */dev/sda1* by the operating system. Run the following command and note the
 `PARTUUID` value:
-```
-sudo blkid
 
-output: /dev/sda1: UUID="8dd06116-a29c-459f-9002-c1cccd7892d5" TYPE="ext4" **PARTUUID="eb5e7935-01"**
-```
+`sudo blkid`
+
+output: */dev/sda1: UUID="8dd06116-a29c-459f-9002-c1cccd7892d5" TYPE="ext4" **PARTUUID="eb5e7935-01"***
+
 
 1. First, prepare the USB flash drive for use by formatting and mounting it. Run the script `./prepFlashStorage`
 
