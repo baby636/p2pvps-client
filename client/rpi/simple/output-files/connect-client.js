@@ -23,7 +23,7 @@ try {
 
 // Set up the Winston logging.
 winston.add(winston.transports.File, {
-  filename: "./connect-client.log",
+  filename: "/usr/src/app/logs/connect-client.log",
   maxFiles: 1,
   colorize: false,
   timestamp: true,
