@@ -38,6 +38,8 @@ const app = express();
 const port = 4000;
 let checkExpirationTimer;
 
+const CHECK_EXPIRATION_INTERVAL = 10 * 60000;
+
 // Read in device-config.json file
 let deviceConfig;
 try {
@@ -172,7 +174,7 @@ function registerDevice() {
       // Begin 10 minutes loop
       checkExpirationTimer = setInterval(function() {
         checkExpiration();
-      }, 2 * 60000);
+      }, CHECK_EXPIRATION_INTERVAL);
     })
 
     .catch(err => {

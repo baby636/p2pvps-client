@@ -58,3 +58,23 @@ build several Docker containers:
 
 That's it! Once the application presents the message `Docker image has been built and is running.`,
 your device is now connected to the P2P VPS server and listed on the market for rent.
+
+10. If you've successfully gotten this far, the next step is to get the software to
+start on bootup. First, stop the programs you just started by hitting Ctrl-C. Then stop
+the Docker container with `docker stop flash-shell`
+
+11. Install PM2 with the command:
+
+`sudo npm install -g pm2`
+
+12. Start the P2P VPS client with this command:
+
+`pm2 start p2p-vps-client.js`
+
+13. Finally, save the process with this command:
+
+`sudo env PATH=$PATH:/usr/local/bin pm2 startup systemd -u pi --hp /home/pi`
+
+and save the state of PM2 with this command:
+
+`npm save`
