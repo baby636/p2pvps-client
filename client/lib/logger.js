@@ -16,7 +16,7 @@ class Logger {
   constructor() {
     // Set up the Winston logging.
     winston.add(winston.transports.File, {
-      filename: "client.log",
+      filename: "~/.p2pvps/logs/p2p-vps-client.log",
       maxFiles: 1,
       colorize: false,
       timestamp: true,
