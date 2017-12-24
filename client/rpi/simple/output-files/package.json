@@ -1,6 +1,6 @@
 {
   "name": "connect-client.js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Connects the Client to the P2P VPS server",
   "main": "connectClient.js",
   "dependencies": {
@@ -9,7 +9,8 @@
     "express3-handlebars": "^0.5.2",
     "node-promise": "^0.5.12",
     "request": "^2.83.0",
-    "reverse-tunnel-ssh": "^1.1.0"
+    "reverse-tunnel-ssh": "^1.1.0",
+    "winston": "^2.4.0"
   },
   "repository": {
     "type": "git",

@@ -9,26 +9,35 @@
 const tunnel = require("reverse-tunnel-ssh"); //tunnel is a ssh2 clientConnection object
 const request = require("request"); //Used for CURL style requests.
 const express = require("express");
+const winston = require("winston");
 
-/*
-// Global configuration defaults
-global.serverIp = "192.241.214.57";
-//global.serverIp = "p2pvps.net";
-global.serverPort = "80";
-//global.GUID = "59e58bdee3627a0001a83d9d";
-global.sshServer = '174.138.35.118';
-global.sshServerPort = 6100;
-global.sshTunnelPort = 6101;
-*/
 global.config = false;
 
 try {
   global.config = require("./config.json");
-  console.log(`Connecting device to P2P VPS server with ID ${global.config.deviceId}`);
+  winston.info(`Connecting device to P2P VPS server with ID ${global.config.deviceId}`);
 } catch (err) {
   console.error("Could not open the config.json file!", err);
   process.exit(1);
 }
+
+// Set up the Winston logging.
+winston.add(winston.transports.File, {
+  filename: "./connect-client.log",
+  maxFiles: 1,
+  colorize: false,
+  timestamp: true,
+  datePattern: ".yyyy-MM-ddTHH-mm",
+  maxsize: 1000000,
+  json: false,
+});
+
+// Set the logging level.
+winston.level = "debug";
+
+// Start first line of the log.
+const now = new Date();
+winston.log("info", `Application starting at ${now}`);
 
 const app = express();
 const port = 4010;
@@ -71,7 +80,7 @@ app.get("/", function(request, response, next) {
 
 /* Start up the Express web server */
 app.listen(process.env.PORT || port);
-console.log(`P2P VPS Keep Alive timer started on port ${port}`);
+winston.info(`P2P VPS Keep Alive timer started on port ${port}`);
 
 // Check in with the P2P VPS server every 2 minutes with this API.
 // This lets the server know the Client is still connected.
@@ -97,7 +106,7 @@ const checkInTimer = setInterval(function() {
 
           if (data.success) {
             const now = new Date();
-            console.log(
+            winston.info(
               `Checked in for device ${global.config.deviceId} at ${now.toLocaleString()}`
             );
           } else {
@@ -113,7 +122,7 @@ const checkInTimer = setInterval(function() {
           } else if (error.code === "EHOSTUNREACH" || error.code === "ECONNREFUSED") {
             // Could not connect to the server.
             debugger;
-            console.log(`Warning: Could not connect to server at ${now.toLocaleString()}`);
+            winston.info(`Warning: Could not connect to server at ${now.toLocaleString()}`);
             return;
           } else {
             console.error(
@@ -126,7 +135,7 @@ const checkInTimer = setInterval(function() {
           }
         }
       } catch (err) {
-        console.log(`connect-client.js exiting with error: ${err}`);
+        winston.info(`connect-client.js exiting with error: ${err}`);
       }
     }
   );
@@ -150,10 +159,10 @@ function createTunnel() {
       },
       function(error, clientConnection) {
         if (error) {
-          console.log("There was an error in connect-client.js/tunnel()!");
+          winston.info("There was an error in connect-client.js/tunnel()!");
           console.error(JSON.stringify(error, null, 2));
         } else {
-          console.log(
+          winston.info(
             `Reverse tunnel established on destination port ${global.config.sshTunnelPort}`
           );
         }
@@ -166,7 +175,7 @@ function createTunnel() {
       // Could not connect to the internet.
       if (error.level === "client-timeout" || error.level === "client-socket") {
         debugger;
-        console.log("Warning, could not connect to SSH server. Waiting before retry.");
+        winston.info("Warning, could not connect to SSH server. Waiting before retry.");
       } else {
         console.error("Error with connect-client.js: ");
         console.error(JSON.stringify(error, null, 2));
@@ -179,11 +188,11 @@ function createTunnel() {
     });
 
     conn.on("close", function(val) {
-      console.log("SSH connection for connect-client.js was closed.");
+      winston.info("SSH connection for connect-client.js was closed.");
     });
 
     conn.on("end", function(val) {
-      console.log("SSH connection for connect-client ended.");
+      winston.info("SSH connection for connect-client ended.");
     });
   } catch (err) {
     console.error("I caught the error!");
@@ -197,5 +206,5 @@ setTimeout(function() {
 }, 5000);
 
 function myDebug(val) {
-  console.log(val);
+  winston.info(val);
 }
