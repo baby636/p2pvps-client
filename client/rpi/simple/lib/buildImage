@@ -1,4 +1,4 @@
 #!/bin/bash
-cp ../../lib/connect-client.js ../output-files/
+cp ../../lib/connect-client.js ./output-files/
 cd output-files/
 docker build -t renter-shell .
