@@ -241,9 +241,11 @@ function checkExpiration() {
 
       if (err.statusCode >= 500) {
         logr.error("Connection to the server was refused. Will try again.");
+      } else if (err.name === "RequestError") {
+        logr.error("Could not connect to server. Internet connection may be down.");
       } else {
         debugger;
-        logr.error(JSON.stringify(err, null, 2));
+        logr.error(`Error stringified: ${JSON.stringify(err, null, 2)}`);
       }
     });
 }
