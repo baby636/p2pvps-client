@@ -44,6 +44,7 @@ RUN bash nodesource_setup.sh
 RUN apt-get install -y nodejs
 RUN apt-get install -y build-essential
 WORKDIR /root
+VOLUME /usr/src/app/logs
 COPY package.json package.json
 RUN npm install
 EXPOSE 3100

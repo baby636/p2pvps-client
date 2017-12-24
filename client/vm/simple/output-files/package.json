@@ -9,7 +9,8 @@
     "express3-handlebars": "^0.5.2",
     "node-promise": "^0.5.12",
     "request": "^2.83.0",
-    "reverse-tunnel-ssh": "^1.1.0"
+    "reverse-tunnel-ssh": "^1.1.0",
+    "winston": "^2.4.0"
   },
   "repository": {
     "type": "git",
