@@ -1,3 +1,4 @@
 #!/bin/bash
 mkdir ~/.p2pvps
 mkdir ~/.p2pvps/logs
+mkdir ~/.p2pvps/connect-client
