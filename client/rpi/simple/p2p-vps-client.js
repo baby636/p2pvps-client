@@ -63,7 +63,7 @@ const expressServer = new ExpressServer(app, port);
 expressServer.start();
 
 // Initialize the debugging logger.
-const Logger = require("../../lib/logger.js");
+const Logger = require("../lib/logger.js");
 const logr = new Logger();
 
 // This is a high-level function used to register the client with this Client with the Server.
