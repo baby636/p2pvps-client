@@ -4,4 +4,4 @@
 #cp config ~/.ssh/
 
 #Run the docker image
-docker run -d --rm --name renter-shell -p 6100:6100 -p 3100:3100 -v /home/pi/.p2pvps/logs/connect-client/:/usr/src/app/logs renter-shell
+docker run -d --rm --name renter-shell -p 6100:6100 -p 3100:3100 -v /home/trout/.p2pvps/logs/connect-client/:/usr/src/app/logs renter-shell
