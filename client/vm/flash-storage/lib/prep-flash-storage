@@ -5,6 +5,6 @@ echo Preparing persistent storage...
 sudo losetup /dev/loop0 ~/vps-storage
 sudo mkfs.ext4 -F /dev/loop0
 sudo mkdir /media/storage
-sudo mount -a /dev/loop0 /media/storage
+sudo mount -t ext4 /dev/loop0 /media/storage
 sudo chown -R $USER:$USER /media/storage/
 echo ...finished preparing persistent storage.
