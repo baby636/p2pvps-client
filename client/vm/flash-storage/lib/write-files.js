@@ -55,8 +55,8 @@ COPY package.json package.json
 COPY config.json config.json
 RUN chmod 775 finalsetup
 VOLUME /media/storage
-RUN chown -R ${username} /media/storage
-RUN adduser ${username} sudo
+RUN chown -R ${this.username} /media/storage
+RUN adduser ${this.username} sudo
 RUN useradd -ms /bin/bash ${this.username}
 RUN echo ${this.username}:${this.password} | chpasswd
 EXPOSE ${this.port}
