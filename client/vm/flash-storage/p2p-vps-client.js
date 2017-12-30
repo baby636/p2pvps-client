@@ -121,6 +121,23 @@ function registerDevice() {
       );
     })
 
+    // Wipe and mount the flash drive
+    .then(() => {
+      logr.log("Wiping and mounting persistent storage.");
+
+      return execa("./lib/prep-flash-storage", undefined, execaOptions)
+        .then(result => {
+          debugger;
+          logr.log(result.stdout);
+        })
+        .catch(err => {
+          debugger;
+          logr.error("Error while trying to wipe and mount persistent storage!");
+          logr.error(JSON.stringify(err, null, 2));
+          process.exit(1);
+        });
+    })
+
     // Build the Docker container.
     .then(() => {
       logr.log("Building Docker Image.");
