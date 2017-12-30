@@ -3,6 +3,7 @@
 
 echo Preparing persistent storage...
 sudo losetup /dev/loop0 ~/vps-storage
+sudo umount /dev/loop0
 sudo mkfs.ext4 -F /dev/loop0
 sudo mkdir /media/storage
 sudo mount -t ext4 /dev/loop0 /media/storage
