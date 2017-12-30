@@ -14,6 +14,7 @@ RUN bash nodesource_setup.sh
 RUN apt-get install -y nodejs
 RUN apt-get install -y build-essential
 WORKDIR /root
+VOLUME /usr/src/app/logs
 COPY package.json package.json
 RUN npm install
 EXPOSE 3100
@@ -23,8 +24,9 @@ COPY connect-client.js connect-client.js
 COPY package.json package.json
 COPY config.json config.json
 RUN chmod 775 finalsetup
-RUN useradd -ms /bin/bash Lb9rhiskMo
-RUN echo Lb9rhiskMo:IWkCOam8Qa | chpasswd
-EXPOSE 6054
+VOLUME /media/storage
+RUN useradd -ms /bin/bash 2UWGUX29CT
+RUN echo 2UWGUX29CT:msjceOaCYb | chpasswd
+EXPOSE 6165
 #ENTRYPOINT ["./finalsetup", "node", "dummyapp.js"]
 ENTRYPOINT ["./finalsetup", "node", "connect-client.js"]
