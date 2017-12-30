@@ -12,6 +12,8 @@ for under $15. This capacity will be considered the 'standard' storage size for 
 
 ![flash client](../../../images/flash-client.jpg?raw=true "flash client")
 
+
+## Installation
 To prepare you device for the P2P VPS marketplace
 with this shell, run the following commands:
 

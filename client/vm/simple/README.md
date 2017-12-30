@@ -8,7 +8,7 @@ However, by keeping it simple, this client is preferred for testing. If you're a
 setting up a P2P VPS client, you should start by following the directions below.
 
 ## Installation
-These instructions assume you are starting with a fresh installation of Ubuntu 16.04 Desktop.
+These instructions assume you are starting with a fresh installation of Ubuntu 16.04 or newer.
 
 ### Device Configuration
 
