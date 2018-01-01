@@ -5,6 +5,6 @@ echo Preparing flash drive...
 sudo umount /dev/sda1
 sudo mkfs.ext4 -F /dev/sda1
 sudo mkdir /media/usb
-sudo mount -a /dev/sda1 /media/usb/
+sudo mount -t ext4 /dev/sda1 /media/usb/
 sudo chown -R pi:pi /media/usb/
 echo ...finished preparing flash drive.
