@@ -14,6 +14,8 @@ const winston = require("winston");
 
 class Logger {
   constructor(deviceConfig) {
+    console.log(`Initializing Winston`);
+
     // Set up the Winston logging.
     winston.add(winston.transports.File, {
       filename: deviceConfig.loggingPath,
