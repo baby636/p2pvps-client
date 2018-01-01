@@ -11,10 +11,7 @@
 //const fs = require("fs");
 const request = require("request"); //Used for CURL requests.
 const rp = require("request-promise");
-
-// Initialize the debugging logger.
-const Logger = require("../rpi/lib/logger.js");
-const logr = new Logger();
+let logr;
 
 // Globals
 //let globalThis; //Used in functions below when 'this' loses context.
@@ -22,12 +19,15 @@ const CHECK_EXPIRATION_PERIOD = 60000 * 2;
 let checkExpirationTimer;
 
 class P2pVpsServer {
-  constructor(deviceConfig) {
+  constructor(deviceConfig, logger) {
     this.deviceId = deviceConfig.deviceId;
     this.serverIp = deviceConfig.serverIp;
     this.serverPort = deviceConfig.serverPort;
     this.sshServer = deviceConfig.sshServer;
     this.sshServerPort = deviceConfig.sshServerPort;
+
+    // Copy handle to logging system to higher scoped variable.
+    logr = logger;
   }
 
   register(config) {

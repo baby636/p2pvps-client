@@ -55,11 +55,11 @@ const writeFiles = new WriteFiles(deviceConfig);
 
 // Initialize the debugging logger.
 const Logger = require("../../lib/logger.js");
-const logr = new Logger();
+const logr = new Logger(deviceConfig);
 
 // Utility functions for dealing with the P2P VPS server. Shared by all clients.
 const P2pVpsServer = require("../../lib/p2p-vps-server.js");
-const p2pVpsServer = new P2pVpsServer(deviceConfig);
+const p2pVpsServer = new P2pVpsServer(deviceConfig, logr);
 
 // Create an Express server. Future development will allow serving of webpages and creation of Client API.
 const ExpressServer = require("../../lib/express-server.js");

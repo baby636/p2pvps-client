@@ -1,5 +1,6 @@
 {
   "deviceId": "5a3147c4a1dd5b005c2d4734",
+  "loggingPath": "/home/pi/.p2pvps/logs/p2p-vps-client.log",
   "serverIp": "p2pvps.net",
   "serverPort": 3001,
   "sshServer": "p2pvps.net",
