@@ -13,10 +13,10 @@ const winston = require("winston");
 // Globals
 
 class Logger {
-  constructor() {
+  constructor(deviceConfig) {
     // Set up the Winston logging.
     winston.add(winston.transports.File, {
-      filename: "/home/pi/.p2pvps/logs/p2p-vps-client.log",
+      filename: deviceConfig.loggingPath,
       maxFiles: 1,
       colorize: false,
       timestamp: true,

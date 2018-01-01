@@ -53,6 +53,10 @@ try {
 const WriteFiles = require("./lib/write-files.js");
 const writeFiles = new WriteFiles(deviceConfig);
 
+// Initialize the debugging logger.
+const Logger = require("../../lib/logger.js");
+const logr = new Logger();
+
 // Utility functions for dealing with the P2P VPS server. Shared by all clients.
 const P2pVpsServer = require("../../lib/p2p-vps-server.js");
 const p2pVpsServer = new P2pVpsServer(deviceConfig);
@@ -61,10 +65,6 @@ const p2pVpsServer = new P2pVpsServer(deviceConfig);
 const ExpressServer = require("../../lib/express-server.js");
 const expressServer = new ExpressServer(app, port);
 expressServer.start();
-
-// Initialize the debugging logger.
-const Logger = require("../lib/logger.js");
-const logr = new Logger();
 
 // This is a high-level function used to register the client with this Client with the Server.
 // It calls the registration function, writes out the support files, builds the Docker container,
