@@ -12,8 +12,14 @@
 const request = require("request"); //Used for CURL requests.
 const rp = require("request-promise");
 
+// Initialize the debugging logger.
+const Logger = require("../rpi/lib/logger.js");
+const logr = new Logger();
+
 // Globals
 //let globalThis; //Used in functions below when 'this' loses context.
+const CHECK_EXPIRATION_PERIOD = 60000 * 2;
+let checkExpirationTimer;
 
 class P2pVpsServer {
   constructor(deviceConfig) {
@@ -116,6 +122,74 @@ class P2pVpsServer {
 
       return new Date(data.expiration);
     });
+  }
+
+  startExpirationTimer() {
+    checkExpirationTimer = setInterval(function() {
+      checkExpiration();
+    }, CHECK_EXPIRATION_PERIOD);
+  }
+
+  // This function is called by a timer after the Docker contain has been successfully
+  // launched.
+  checkExpiration() {
+    debugger;
+
+    const now = new Date();
+    logr.log(`checkExpiration() running at ${now}`);
+
+    // Get the expiration date for this device from the server.
+    getExpiration(deviceConfig.deviceId)
+      // Check expiration date.
+      .then(expiration => {
+        //const now = new Date();
+
+        logr.log(`Expiration date: ${expiration}`);
+        logr.debug(`Expiration type: ${typeof expiration}`);
+
+        const expirationDate = new Date(expiration);
+
+        // If the expiration date has been reached
+        if (expirationDate.getTime() < now.getTime()) {
+          // Stop the docker container.
+          logr.log("Stopping the docker container");
+          const stream = execa("./lib/stopImage").stdout;
+
+          stream.pipe(process.stdout);
+
+          return (
+            getStream(stream)
+              // Clean up any orphaned docker images.
+              .then(output => {
+                const stream2 = execa("./lib/cleanupImages").stdout;
+
+                stream2.pipe(process.stdout);
+
+                return getStream(stream2);
+              })
+
+              // Reregister the device.
+              .then(output => {
+                debugger;
+                clearInterval(checkExpirationTimer); // Stop the timer.
+
+                registerDevice(); // Re-register the device with the server.
+              })
+          );
+        }
+      })
+
+      .catch(err => {
+        debugger;
+        logr.error("Error in checkExpiration(): ");
+
+        if (err.statusCode >= 500 || err.name === "RequestError") {
+          logr.error("Connection to the server was refused. Will try again.");
+        } else {
+          debugger;
+          logr.error(JSON.stringify(err, null, 2));
+        }
+      });
   }
 }
 
