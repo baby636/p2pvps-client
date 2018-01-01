@@ -125,8 +125,8 @@ class P2pVpsServer {
   }
 
   startExpirationTimer() {
-    checkExpirationTimer = setInterval(function() {
-      checkExpiration();
+    checkExpirationTimer = setInterval(() => {
+      this.checkExpiration();
     }, CHECK_EXPIRATION_PERIOD);
   }
 
