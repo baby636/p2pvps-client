@@ -139,7 +139,7 @@ class P2pVpsServer {
     logr.log(`checkExpiration() running at ${now}`);
 
     // Get the expiration date for this device from the server.
-    this.getExpiration(deviceConfig.deviceId)
+    this.getExpiration(this.deviceId)
       // Check expiration date.
       .then(expiration => {
         //const now = new Date();
