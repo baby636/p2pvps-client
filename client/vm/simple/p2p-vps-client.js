@@ -55,18 +55,18 @@ try {
 const WriteFiles = require("./lib/write-files.js");
 const writeFiles = new WriteFiles(deviceConfig);
 
+// Initialize the debugging logger.
+const Logger = require("../../lib/logger.js");
+const logr = new Logger(deviceConfig);
+
 // Utility functions for dealing with the P2P VPS server. Shared by all clients.
 const P2pVpsServer = require("../../lib/p2p-vps-server.js");
-const p2pVpsServer = new P2pVpsServer(deviceConfig);
+const p2pVpsServer = new P2pVpsServer(deviceConfig, logr);
 
 // Create an Express server. Future development will allow serving of webpages and creation of Client API.
 const ExpressServer = require("../../lib/express-server.js");
 const expressServer = new ExpressServer(app, port);
 expressServer.start();
-
-// Initialize the debugging logger.
-const Logger = require("../lib/logger.js");
-const logr = new Logger();
 
 // This is a high-level function used to register this Client with the Server.
 // It calls the registration function, writes out the support files, builds the Docker container,
@@ -159,10 +159,8 @@ function registerDevice() {
     .then(() => {
       logr.log("Docker image has been built and is running.");
 
-      // Begin 10 minutes loop
-      checkExpirationTimer = setInterval(function() {
-        checkExpiration();
-      }, 2 * 60000);
+      // Begin timer to check expiration.
+      p2pVpsServer.startExpirationTimer();
     })
 
     .catch(err => {
@@ -171,67 +169,3 @@ function registerDevice() {
     });
 }
 registerDevice();
-
-// This function is called by a timer after the Docker contain has been successfully
-// launched.
-function checkExpiration() {
-  debugger;
-
-  const now = new Date();
-  logr.log(`checkExpiration() running at ${now}`);
-
-  // Get the expiration date for this device from the server.
-  p2pVpsServer
-    .getExpiration(deviceConfig.deviceId)
-
-    // Check expiration date.
-    .then(expiration => {
-      //const now = new Date();
-
-      logr.log(`Expiration date: ${expiration}`);
-      logr.debug(`Expiration type: ${typeof expiration}`);
-
-      const expirationDate = new Date(expiration);
-
-      // If the expiration date has been reached
-      if (expirationDate.getTime() < now.getTime()) {
-        // Stop the docker container.
-        logr.log("Stopping the docker container");
-        const stream = execa("./lib/stopImage").stdout;
-
-        stream.pipe(process.stdout);
-
-        return (
-          getStream(stream)
-            // Clean up any orphaned docker images.
-            .then(output => {
-              const stream2 = execa("./lib/cleanupImages").stdout;
-
-              stream2.pipe(process.stdout);
-
-              return getStream(stream2);
-            })
-
-            // Reregister the device.
-            .then(output => {
-              debugger;
-              clearInterval(checkExpirationTimer); // Stop the timer.
-
-              registerDevice(); // Re-register the device with the server.
-            })
-        );
-      }
-    })
-
-    .catch(err => {
-      debugger;
-      logr.error("Error in checkExpiration(): ");
-
-      if (err.statusCode >= 500 || err.name === "RequestError") {
-        logr.error("Connection to the server was refused. Will try again.");
-      } else {
-        debugger;
-        logr.error(JSON.stringify(err, null, 2));
-      }
-    });
-}
