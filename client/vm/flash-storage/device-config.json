@@ -1,5 +1,6 @@
 {
   "deviceId": "5a4567a2236fa30097d94420",
+  "loggingPath": "/home/trout/.p2pvps/logs/p2p-vps-client.log",
   "serverIp": "p2pvps.net",
   "serverPort": 3001,
   "sshServer": "p2pvps.net",
