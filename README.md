@@ -21,6 +21,8 @@ helping to create a more decentralized internet at the same time.
 That's the focus of the P2P VPS network. In this way, the P2P VPS software is censorship-fighting
 software similar to, but very different from, [TOR](https://www.torproject.org/).
 
+Find out more at the [P2P VPS Homepage](http://p2pvps.org).
+
 ## About This Repository
 This repository is the *client-side* software needed to turn a computer into a VPS.
 By 'computer' we mean any computer. An old laptop, a Virtual Machine (VM) running on a desktop,
