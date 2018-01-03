@@ -50,7 +50,7 @@ and persistent storage.
   * [Raspberry Pi simple-client](client/rpi/simple)
   * [Raspberry Pi flash-client](client/rpi/flash-storage)
   * [VM simple-client](client/vm/simple)
-  * [VM flash-client](flash-storage)
+  * [VM flash-client](client/vm/flash-storage)
 
 ### File Layout
 * The `client` directory contains various implementations of the P2P VPS Client code:
