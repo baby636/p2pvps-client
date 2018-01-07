@@ -127,9 +127,12 @@ class P2pVpsServer {
   }
 
   startExpirationTimer(registerFunc) {
-    console.log(`p2p-vps-server.js/startExpirationTime(registerFunc): ${typeof registerFunc}`);
+    //console.log(`p2p-vps-server.js/startExpirationTime(registerFunc): ${typeof registerFunc}`);
+
+    if (registerFunc === undefined) throw "register() function not defined.";
+
     checkExpirationTimer = setInterval(() => {
-      console.log(`p2p-vps-server.js/setInterval(registerFunc): ${typeof registerFunc}`);
+      //console.log(`p2p-vps-server.js/setInterval(registerFunc): ${typeof registerFunc}`);
       this.checkExpiration(registerFunc);
     }, CHECK_EXPIRATION_PERIOD);
   }
@@ -138,7 +141,9 @@ class P2pVpsServer {
   // launched.
   checkExpiration(registerFunc) {
     debugger;
-    console.log(`p2p-vps-server.js/checkExpiration(registerFunc): ${typeof registerFunc}`);
+    //console.log(`p2p-vps-server.js/checkExpiration(registerFunc): ${typeof registerFunc}`);
+
+    if (registerFunc === undefined) throw "register() function not defined.";
 
     const now = new Date();
     logr.log(`checkExpiration() running at ${now}`);
@@ -179,9 +184,9 @@ class P2pVpsServer {
                 clearInterval(checkExpirationTimer); // Stop the timer.
 
                 //registerDevice(); // Re-register the device with the server.
-                console.log(
-                  `p2p-vps-server.js/startExpirationTime2(registerFunc): ${typeof registerFunc}`
-                );
+                //console.log(
+                //  `p2p-vps-server.js/startExpirationTime2(registerFunc): ${typeof registerFunc}`
+                //);
                 registerFunc();
               })
           );

@@ -32,13 +32,11 @@
 
 // Express Dependencies
 const express = require("express");
-const getStream = require("get-stream");
 const execa = require("execa");
 
 // Global Variables
 const app = express();
 const port = 4000;
-let checkExpirationTimer;
 
 // Read in device-config.json file
 let deviceConfig;
@@ -177,7 +175,7 @@ function registerDevice() {
       logr.log("Docker image has been built and is running.");
 
       // Begin timer to check expiration.
-      p2pVpsServer.startExpirationTimer();
+      p2pVpsServer.startExpirationTimer(registerDevice);
     })
 
     .catch(err => {
