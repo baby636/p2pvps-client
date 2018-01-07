@@ -44,6 +44,7 @@ RUN bash nodesource_setup.sh
 RUN apt-get install -y nodejs
 RUN apt-get install -y build-essential
 RUN apt-get install -y sudo
+RUN apt-get install -y git
 WORKDIR /root
 VOLUME /usr/src/app/logs
 COPY package.json package.json
