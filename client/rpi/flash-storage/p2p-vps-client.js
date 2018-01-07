@@ -30,15 +30,11 @@
 
 // Express Dependencies
 const express = require("express");
-const getStream = require("get-stream");
 const execa = require("execa");
 
 // Global Variables
 const app = express();
 const port = 4000;
-let checkExpirationTimer;
-
-const CHECK_EXPIRATION_INTERVAL = 10 * 60000;
 
 // Read in device-config.json file
 let deviceConfig;

@@ -12,6 +12,7 @@
 const request = require("request"); //Used for CURL requests.
 const rp = require("request-promise");
 const execa = require("execa");
+const getStream = require("get-stream");
 let logr;
 
 // Globals
