@@ -126,15 +126,15 @@ class P2pVpsServer {
     });
   }
 
-  startExpirationTimer() {
+  startExpirationTimer(registerFunc) {
     checkExpirationTimer = setInterval(() => {
-      this.checkExpiration();
+      this.checkExpiration(registerFunc);
     }, CHECK_EXPIRATION_PERIOD);
   }
 
   // This function is called by a timer after the Docker contain has been successfully
   // launched.
-  checkExpiration() {
+  checkExpiration(registerFunc) {
     debugger;
 
     const now = new Date();
@@ -175,7 +175,8 @@ class P2pVpsServer {
                 debugger;
                 clearInterval(checkExpirationTimer); // Stop the timer.
 
-                registerDevice(); // Re-register the device with the server.
+                //registerDevice(); // Re-register the device with the server.
+                registerFunc();
               })
           );
         }

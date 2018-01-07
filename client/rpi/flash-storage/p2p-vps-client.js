@@ -168,7 +168,7 @@ function registerDevice() {
       logr.log("Docker image has been built and is running.");
 
       // Begin timer to check expiration.
-      p2pVpsServer.startExpirationTimer();
+      p2pVpsServer.startExpirationTimer(registerDevice);
     })
 
     .catch(err => {
