@@ -168,6 +168,7 @@ function registerDevice() {
       logr.log("Docker image has been built and is running.");
 
       // Begin timer to check expiration.
+      console.log(`p2p-vps-client.js/registerDevice: ${typeof registerDevice}`);
       p2pVpsServer.startExpirationTimer(registerDevice);
     })
 
