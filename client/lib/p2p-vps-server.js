@@ -181,13 +181,13 @@ class P2pVpsServer {
 
       .catch(err => {
         debugger;
-        logr.error("Error in checkExpiration(): ");
+        logr.error("Error in checkExpiration(): ", err);
 
         if (err.statusCode >= 500 || err.name === "RequestError") {
           logr.error("Connection to the server was refused. Will try again.");
         } else {
           debugger;
-          logr.error(JSON.stringify(err, null, 2));
+          logr.error(`Error stringified: ${JSON.stringify(err, null, 2)}`);
         }
       });
   }
