@@ -36,7 +36,7 @@ for the user `pi`.
 3. (optional) A fresh install of Raspbian on an 8GB card does not leave much room.
 If you plan to designate this device as a dedicated VPS, it will be advantageous
 to remove a lot of unneeded software.
-Follow the commands below to update your device and remove unneeded software.
+Follow the commands below to remove a lot of the default applications in Raspbian.
 
 ```
 sudo apt-get --purge -y remove libreoffice libreoffice-avmedia-backend-gstreamer libreoffice-base libreoffice-base-core libreoffice-base-drivers libreoffice-calc libreoffice-common libreoffice-core libreoffice-draw libreoffice-gtk libreoffice-impress libreoffice-java-common libreoffice-math libreoffice-report-builder-bin libreoffice-sdbc-hsqldb libreoffice-style-galaxy libreoffice-writer bluej wolfram-engine scratch geany geany-common greenfoot sonic-pi
@@ -57,9 +57,10 @@ sudo apt-get install -y nodejs build-essential
 sudo apt-get -y upgrade
 ```
 
-5. (optional) For renting out as a VPS, I usually hard connect the RPi with an ethernet cord. That
-means I can disable to the WiFi and Bluetooth to reduce power, save money, and prevent an attack
-vector. It's easy to disable by adding these two lines to the bottom of `/boot/config.txt`:
+5. (optional) For renting out as a VPS, I usually hard connect the RPi with an
+ethernet cord. That makes it possible to disable to the WiFi and Bluetooth to
+reduce power, save money, and prevent an attack vector. It's easy to disable by
+adding these two lines to the bottom of `/boot/config.txt`:
 ```
 dtoverlay=pi3-disable-wifi
 pi3-disable-bt
@@ -71,7 +72,8 @@ this is a great time to reboot your device. It seems to prevent errors with inst
 `curl -sSL https://get.docker.com | sh`
 
 7. Follow the on-screen instructions to add the user 'pi' to the docker group.
-You'll need to open a new terminal after entering this instruction:
+You'll need to open a new terminal, or reboot your device, after entering this
+instruction:
 
 `sudo usermod -aG docker pi`
 

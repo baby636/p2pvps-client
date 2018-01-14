@@ -1,7 +1,7 @@
 # Renter Shell with Flash Storage
-The code in this directory allow device Owners to create a Renter shell with
-persistent storage. Also, unlike the [simple shell](../simple), the Renter has
-sudo privileges in this flash shell. *However, it is much easier to debug issues if
+The code in this directory allows device Owners to create a Client Device with
+persistent storage. Also, unlike the [simple client](../simple), the Renter has
+sudo privileges in this client. *However, it is much easier to debug issues if
 you build the [simple shell](../simple) **before** building this client.*
 
 It is **strongly** recommended that device
@@ -14,8 +14,8 @@ for under $15. This capacity will be considered the 'standard' storage size for 
 
 
 ## Installation
-To prepare you device for the P2P VPS marketplace
-with this shell, run the following commands:
+To prepare your device for the P2P VPS marketplace with this shell, run the
+following commands:
 
 1. Follow steps 1 through 11 for the [simple client](../simple).
 
@@ -29,11 +29,12 @@ as */dev/sda1* by the operating system. Run the following command and note the
 
 `sudo blkid`
 
-output: */dev/sda1: UUID="8dd06116-a29c-459f-9002-c1cccd7892d5" TYPE="ext4" **PARTUUID="eb5e7935-01"***
+output example: */dev/sda1: UUID="8dd06116-a29c-459f-9002-c1cccd7892d5" TYPE="ext4" **PARTUUID="eb5e7935-01"***
 
 4. Add the following line to `/etc/fstab` with the command `sudo nano /etc/fstab`. Replace
 `eb5e7935-01` with the value from your own device.
-Note: You can brick your RPi if this line is malformed. This would require re-loading NOOBS.
+Note: You can brick your RPi if this line is malformed. This would require re-loading NOOBS
+and installing Raspbian. So make sure you type it correctly:
 
 `PARTUUID=eb5e7935-01 /media/usb ext4 defaults 0 0`
 
