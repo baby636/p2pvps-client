@@ -7,7 +7,7 @@ does not have sudo privileges so is pretty strongly restricted in what they can 
 However, by keeping it simple, this client is preferred for testing. If you're a beginner at
 setting up a P2P VPS client, you should start by following the directions below. It's also
 much easier to troubleshoot if you build this client **before** building the
-[flashStorage client](../flashStorage).
+[flash-storage client](../flash-storage).
 
 ## Installation
 These instructions assume you are starting with a Raspberry Pi v3 B+ with an 8GB or larger
