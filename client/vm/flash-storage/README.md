@@ -1,12 +1,12 @@
 # VM Flash Storage VPS Client
-This version of the VM client evolved from the simple-shell. However, it provides
-persistent storage and sudo privledges. It's modeled after the flash-shell client
-developed for the Raspberry Pi.
+This version of the VM client evolved from the simple-shell. Unlike that shell,
+it provides persistent storage and sudo privileges. It's modeled after the
+flash-shell client developed for the Raspberry Pi.
 
 ## Installation
 To prepare you device for the P2P VPS marketplace
 with this shell, run the following commands.
-[Source](http://www.walkernews.net/2007/07/01/create-linux-loopback-file-system-on-disk-file/)
+()[Source](http://www.walkernews.net/2007/07/01/create-linux-loopback-file-system-on-disk-file/))
 
 1. Follow steps 1 through 9 for the [simple client](../simple), then enter the home
 directory:
@@ -17,12 +17,13 @@ directory:
 
 `sudo mkdir /media/storage`
 
-* Create a block device, which will become the persistant storage folder inside the
-Docker container. The command below creates a 64GB file. Adjust it for your needs:
+* Create a block device, which will become the persistent storage folder inside the
+Docker container. The command below creates a 64GB file with 1MB blocks. Adjust
+it for your needs:
 
 `dd if=/dev/zero of=vps-storage bs=1M count=64000`
 
-* Allow Linux to access the file like a file system with this command:
+* Allow Linux to access the file as if it was a file system with this command:
 
 `sudo losetup /dev/loop0 vps-storage`
 
