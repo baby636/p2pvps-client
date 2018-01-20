@@ -93,6 +93,7 @@ instruction:
 ```
 cd p2pvps-client/client
 npm install
+./init
 ```
 
 12. Change into the RPi simple client directory:
