@@ -91,13 +91,14 @@ instruction:
 
 11. Setup the Client program by running:
 ```
-cd p2pvps-client
+cd p2pvps-client/client
 npm install
+./init
 ```
 
 12. Change into the RPi simple client directory:
 
-`cd client/rpi/simple/`
+`cd rpi/simple/`
 
 13. Install the dependencies:
 

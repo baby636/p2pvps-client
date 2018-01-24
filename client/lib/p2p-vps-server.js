@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 RPiOVN.org
+ * Copyright 2018 Chris Troutner & P2P VPS Inc.
  * Licensing Information: MIT License
  *
  * This library file handle communication with the P2P VPS server.
@@ -17,7 +17,7 @@ let logr;
 
 // Globals
 //let globalThis; //Used in functions below when 'this' loses context.
-const CHECK_EXPIRATION_PERIOD = 60000 * 2;
+const CHECK_EXPIRATION_PERIOD = 60000 * 6;
 let checkExpirationTimer;
 
 class P2pVpsServer {
@@ -195,13 +195,15 @@ class P2pVpsServer {
 
       .catch(err => {
         debugger;
-        logr.error("Error in checkExpiration(): ", err);
+        logr.error("Error in checkExpiration(): ");
 
-        if (err.statusCode >= 500 || err.name === "RequestError") {
-          logr.error("Connection to the server was refused. Will try again.");
-        } else {
-          debugger;
-          logr.error(`Error stringified: ${JSON.stringify(err, null, 2)}`);
+        if (err.error) {
+          if (err.statusCode >= 500 || err.name === "RequestError") {
+            logr.error("Connection to the server was refused. Will try again.");
+          } else {
+            debugger;
+            logr.error(`Error stringified: ${JSON.stringify(err, null, 2)}`);
+          }
         }
       });
   }

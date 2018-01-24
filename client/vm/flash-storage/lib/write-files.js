@@ -28,7 +28,7 @@ class WriteFiles {
     this.password = password;
 
     return new Promise((resolve, reject) => {
-      const fileString = `FROM ubuntu:17.04
+      const fileString = `FROM ubuntu:16.04
 MAINTAINER Chris Troutner <chris.troutner@gmail.com>
 RUN apt-get -y update
 RUN apt-get install -y openssh-server

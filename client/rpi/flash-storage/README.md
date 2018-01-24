@@ -29,14 +29,14 @@ as */dev/sda1* by the operating system. Run the following command and note the
 
 `sudo blkid`
 
-output example: */dev/sda1: UUID="8dd06116-a29c-459f-9002-c1cccd7892d5" TYPE="ext4" **PARTUUID="eb5e7935-01"***
+output example: /dev/sda1: **UUID="8dd06116-a29c-459f-9002-c1cccd7892d5"** TYPE="ext4" PARTUUID="eb5e7935-01"
 
 4. Add the following line to `/etc/fstab` with the command `sudo nano /etc/fstab`. Replace
-`eb5e7935-01` with the value from your own device.
+the UUID value with the value from your own device.
 Note: You can brick your RPi if this line is malformed. This would require re-loading NOOBS
 and installing Raspbian. So make sure you type it correctly:
 
-`PARTUUID=eb5e7935-01 /media/usb ext4 defaults 0 0`
+`UUID=8dd06116-a29c-459f-9002-c1cccd7892d5 /media/usb ext4 defaults 0 0`
 
 5. Reboot the RPi. When the device reboots, the flash drive will automatically be mounted
 to `/media/usb`.
