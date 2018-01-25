@@ -18,6 +18,8 @@ sudo chown -R $USER:$USER /media/storage/
 
 if grep -qs '/media/storage' /proc/mounts; then
     echo "Storage drive is mounted."
+    sudo rm -rf /media/storage/*
+    mkdir /media/storage/lost+found
 else
     echo "Storage drive NOT mounted."
 fi
