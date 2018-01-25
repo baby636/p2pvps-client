@@ -2,10 +2,24 @@
 # This script formats and mounts a USB flash drive.
 
 echo Preparing persistent storage...
+
+if grep -qs '/media/storage' /proc/mounts; then
+    echo "Storage drive is mounted."
+else
+    echo "Storage drive NOT mounted."
+fi
+
 sudo losetup /dev/loop0 ~/vps-storage
 sudo umount /dev/loop0
 sudo mkfs.ext4 -F /dev/loop0
 sudo mkdir /media/storage
 sudo mount -t ext4 /dev/loop0 /media/storage
 sudo chown -R $USER:$USER /media/storage/
+
+if grep -qs '/media/storage' /proc/mounts; then
+    echo "Storage drive is mounted."
+else
+    echo "Storage drive NOT mounted."
+fi
+
 echo ...finished preparing persistent storage.
