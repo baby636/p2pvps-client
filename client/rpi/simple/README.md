@@ -112,5 +112,8 @@ build several Docker containers:
 
 `node p2p-vps-client.js`
 
-That's it! Once the application presents the message `Docker image has been built and is running.`,
+That's it! Once the application presents the message
+`Docker image has been built and is running.`,
 your device is now connected to the P2P VPS server and listed on the market for rent.
+
+Continue by installing the [flash client](../flash-storage/README.md)

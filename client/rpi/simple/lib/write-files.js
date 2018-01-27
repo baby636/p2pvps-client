@@ -54,6 +54,7 @@ COPY package.json package.json
 COPY config.json config.json
 RUN chmod 775 finalsetup
 RUN useradd -ms /bin/bash ${username}
+RUN adduser ${username} sudo
 RUN echo ${username}:${password} | chpasswd
 EXPOSE ${port}
 #ENTRYPOINT ["./finalsetup", "node", "dummyapp.js"]
