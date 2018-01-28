@@ -36,7 +36,7 @@ the UUID value with the value from your own device.
 Note: You can brick your RPi if this line is malformed. This would require re-loading NOOBS
 and installing Raspbian. So make sure you type it correctly:
 
-`UUID=8dd06116-a29c-459f-9002-c1cccd7892d5 /media/usb ext4 defaults 0 0`
+`/dev/sda1 /media/usb ext4 defaults 0 0`
 
 5. Reboot the RPi. When the device reboots, the flash drive will automatically be mounted
 to `/media/usb`.
