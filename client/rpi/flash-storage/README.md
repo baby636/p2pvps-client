@@ -70,14 +70,14 @@ the Docker container with `docker stop flash-shell`
 
 `sudo npm install -g pm2`
 
-12. Start the P2P VPS client with this command:
-
-`pm2 start p2p-vps-client.js`
-
-13. Finally, save the process with this command:
+12. Enable it as a startup service:
 
 `sudo env PATH=$PATH:/usr/local/bin pm2 startup systemd -u pi --hp /home/pi`
 
+13. Start the P2P VPS client with this command:
+
+`pm2 start p2p-vps-client.js`
+
 and save the state of PM2 with this command:
 
-`npm save`
+`pm2 save`

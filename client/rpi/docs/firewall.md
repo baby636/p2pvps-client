@@ -20,7 +20,7 @@ it to the network, and not the WiFi antenna.**
 ```
 [Service]
 ExecStart=
-ExecStart=/usr/bin/dockerd -H fd:// --iptables=false
+ExecStart=/usr/bin/dockerd -H fd:// --iptables=false --dns=8.8.4.4
 ```
 
 * Reboot the Raspberry Pi to let the changes take effect.
