@@ -47,7 +47,7 @@ Run the flash preparation script with this command:
 
 `./lib/prep-flash-storage`
 
-7. Install Wondershaper, which will allow you bandwidth limit the rental device.
+7. Install Wondershaper, which will allow you bandwidth limit the rental container.
 
 `sudo apt-get install -y wondershaper`
 
