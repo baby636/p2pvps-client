@@ -151,6 +151,9 @@ function registerDevice() {
         const child = sudo(["./lib/prep-flash-storage"], sudoOptions);
         child.stdout.on("data", function(data) {
           console.log(data.toString());
+        });
+        ls.on("close", code => {
+          console.log(`child process exited with code ${code}`);
           resolve();
         });
       });
