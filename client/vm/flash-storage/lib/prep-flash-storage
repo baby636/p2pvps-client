@@ -10,12 +10,11 @@ else
 fi
 
 echo "User is $USER"
-sudo losetup /dev/loop0 ~/vps-storage
-sudo umount /dev/loop0
-sudo mkfs.ext4 -F /dev/loop0
-sudo mkdir /media/storage
-sudo mount -t ext4 /dev/loop0 /media/storage
-sudo chown -R $USER:$USER /media/storage/
+losetup /dev/loop0 ~/vps-storage
+umount /dev/loop0
+mkfs.ext4 -F /dev/loop0
+mkdir /media/storage
+mount -t ext4 /dev/loop0 /media/storage
 
 if grep -qs '/media/storage' /proc/mounts; then
     echo "Storage drive is mounted."
