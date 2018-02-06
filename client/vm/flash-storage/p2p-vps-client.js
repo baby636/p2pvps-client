@@ -152,7 +152,7 @@ function registerDevice() {
         child.stdout.on("data", function(data) {
           console.log(data.toString());
         });
-        ls.on("close", code => {
+        child.on("close", code => {
           console.log(`child process exited with code ${code}`);
           resolve();
         });
