@@ -9,7 +9,8 @@ else
     echo "Storage drive NOT mounted."
 fi
 
-echo "User is $USER"
+echo "User is $USER with id $UID"
+id
 losetup /dev/loop0 ~/vps-storage
 umount /dev/loop0
 mkfs.ext4 -F /dev/loop0
