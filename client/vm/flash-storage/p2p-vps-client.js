@@ -33,7 +33,7 @@
 // Express Dependencies
 const express = require("express");
 const execa = require("execa");
-var sudo = require("sudo");
+const sudo = require("p2pvps-sudo");
 
 // Global Variables
 const app = express();
