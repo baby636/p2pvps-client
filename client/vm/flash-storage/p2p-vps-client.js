@@ -149,10 +149,11 @@ function registerDevice() {
         });
 
         child.stderr.on("data", function(data) {
-          logr.error("Error while trying to wipe and mount persistent storage!");
-          logr.error(JSON.stringify(data, null, 2));
-          process.exit(1);
-          return reject();
+          logr.warn(data.toString());
+          //logr.error("Error while trying to wipe and mount persistent storage!");
+          //logr.error(JSON.stringify(data, null, 2));
+          //process.exit(1);
+          //return reject();
         });
       });
     })
