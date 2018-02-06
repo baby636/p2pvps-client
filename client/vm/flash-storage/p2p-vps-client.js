@@ -67,9 +67,10 @@ const ExpressServer = require("../../lib/express-server.js");
 const expressServer = new ExpressServer(app, port);
 expressServer.start();
 
-var sudoOptions = {
+const sudoOptions = {
   cachePassword: true,
-  prompt: "Password, yo? ",
+  prompt: "Password for sudo is needed: ",
+  password: deviceConfig.sudoPassword,
   spawnOptions: {
     /* other options for spawn */
   },
