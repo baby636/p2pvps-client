@@ -90,6 +90,8 @@ function registerDevice() {
   const execaOptions = {
     stdout: "inherit",
     stderr: "inherit",
+    uid: 0,
+    gid: 0,
   };
 
   // Register with the server.
