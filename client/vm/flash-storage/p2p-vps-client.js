@@ -33,6 +33,7 @@
 // Express Dependencies
 const express = require("express");
 const execa = require("execa");
+var sudo = require("sudo");
 
 // Global Variables
 const app = express();
@@ -65,6 +66,14 @@ const p2pVpsServer = new P2pVpsServer(deviceConfig, logr);
 const ExpressServer = require("../../lib/express-server.js");
 const expressServer = new ExpressServer(app, port);
 expressServer.start();
+
+var sudoOptions = {
+  cachePassword: true,
+  prompt: "Password, yo? ",
+  spawnOptions: {
+    /* other options for spawn */
+  },
+};
 
 // This is a high-level function used to register this Client with the Server.
 // It calls the registration function, writes out the support files, builds the Docker container,
@@ -124,7 +133,7 @@ function registerDevice() {
     // Wipe and mount the flash drive
     .then(() => {
       logr.log("Wiping and mounting persistent storage.");
-
+      /*
       return execa("./lib/prep-flash-storage", undefined, execaOptions)
         .then(result => {
           debugger;
@@ -136,6 +145,15 @@ function registerDevice() {
           logr.error(JSON.stringify(err, null, 2));
           process.exit(1);
         });
+*/
+
+      return new Promise(function(resolve, reject) {
+        const child = sudo(["./lib/prep-flash-storage"], sudoOptions);
+        child.stdout.on("data", function(data) {
+          console.log(data.toString());
+          resolve();
+        });
+      });
     })
 
     // Build the Docker container.
