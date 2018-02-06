@@ -134,28 +134,25 @@ function registerDevice() {
     // Wipe and mount the flash drive
     .then(() => {
       logr.log("Wiping and mounting persistent storage.");
-      /*
-      return execa("./lib/prep-flash-storage", undefined, execaOptions)
-        .then(result => {
-          debugger;
-          logr.log(result.stdout);
-        })
-        .catch(err => {
-          debugger;
-          logr.error("Error while trying to wipe and mount persistent storage!");
-          logr.error(JSON.stringify(err, null, 2));
-          process.exit(1);
-        });
-*/
 
+      // Use the sudo() function to launch the script with sudo privledges.
       return new Promise(function(resolve, reject) {
         const child = sudo(["./lib/prep-flash-storage"], sudoOptions);
+
         child.stdout.on("data", function(data) {
-          console.log(data.toString());
+          logr.log(data.toString());
         });
+
         child.on("close", code => {
-          console.log(`child process exited with code ${code}`);
-          resolve();
+          logr.info(`Storage prep script exited with code ${code}`);
+          return resolve();
+        });
+
+        child.stderr.on("data", function(data) {
+          logr.error("Error while trying to wipe and mount persistent storage!");
+          logr.error(JSON.stringify(data, null, 2));
+          process.exit(1);
+          return reject();
         });
       });
     })
