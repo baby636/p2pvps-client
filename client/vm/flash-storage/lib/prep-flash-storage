@@ -9,6 +9,7 @@ else
     echo "Storage drive NOT mounted."
 fi
 
+echo "User is $USER"
 sudo losetup /dev/loop0 ~/vps-storage
 sudo umount /dev/loop0
 sudo mkfs.ext4 -F /dev/loop0
