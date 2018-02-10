@@ -7,8 +7,14 @@ does not have sudo privileges, so they're strongly restricted in what they can d
 However, by keeping it simple, this client is preferred for testing. If you're a beginner at
 setting up a P2P VPS client, you should start by following the directions below.
 
+
 ## Installation
 These instructions assume you are starting with a fresh installation of Ubuntu 16.04 or newer.
+
+You will also need to register an account at: https://p2pvps.net/createaccount
+
+**Note** this is where you will get the device GUID mentioned in step 9 below.
+
 
 ### Device Configuration
 
@@ -63,7 +69,7 @@ the *Owned Devices view* by clicking the *+Add New Device* button. Paste this GU
 10. Launch the simple client. The first time will take a while as it will need to download and
 build several Docker containers:
 
-`node p2p-vps-client.js`
+`sudo node p2p-vps-client.js`
 
 That's it! Once the application presents the message `Docker image has been built and is running.`,
 your device is now connected to the P2P VPS server and listed on the market for rent.
