@@ -63,7 +63,7 @@ npm install
 
 `cd vm/simple/`
 
-9. Get your device GUID from the P2P VPS marketplace. This is provided in
+9. Get your device GUID from [the P2P VPS marketplace](http://p2pvps.net). You'll need to create an account. The GUID is provided in
 the *Owned Devices view* by clicking the *+Add New Device* button. Paste this GUID into the `device-config.json` file.
 
 10. Launch the simple client. The first time will take a while as it will need to download and
