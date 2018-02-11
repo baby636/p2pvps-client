@@ -42,10 +42,13 @@ it for your needs:
 8. Get your device GUID from the P2P VPS marketplace. This is provided in
 the *Owned Devices view* by clicking the *+Add New Device* button. Paste this GUID into the `device-config.json` file.
 
+* You will also need to add the sudo password for this VM to the `device-config.json` file. The `p2p-vps-client.js` program
+will need this password in order to format the persistant storage.
+
 9. Launch the simple client. The first time will take a while as it will need to download and
 build several Docker containers:
 
-`node p2p-vps-client.js`
+`sudo node p2p-vps-client.js`
 
 That's it! Once the application presents the message `Docker image has been built and is running.`,
 your device is now connected to the P2P VPS server and listed on the market for rent.
