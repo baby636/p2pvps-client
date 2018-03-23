@@ -39,7 +39,7 @@ class P2pVpsServer {
       //Register with the server by sending the benchmark data.
       request.post(
         {
-          url: `http://${this.serverIp}:${this.serverPort}/api/client/register/${
+          url: `http://${this.serverIp}:${this.serverPort}/client/register/${
             this.deviceId
           }`,
           form: config.deviceSpecs,
@@ -93,7 +93,7 @@ class P2pVpsServer {
 
     const options = {
       method: "GET",
-      uri: `http://p2pvps.net/api/device/${deviceId}`,
+      uri: `http://p2pvps.net/device/${deviceId}`,
       json: true, // Automatically stringifies the body to JSON
     };
 
@@ -112,7 +112,7 @@ class P2pVpsServer {
 
     const options = {
       method: "GET",
-      uri: `http://p2pvps.net/api/client/expiration/${deviceId}`,
+      uri: `http://p2pvps.net/client/expiration/${deviceId}`,
       json: true, // Automatically stringifies the body to JSON
     };
 
