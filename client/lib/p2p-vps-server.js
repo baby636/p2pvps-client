@@ -51,7 +51,7 @@ class P2pVpsServer {
             if (!error && response.statusCode === 200) {
               //Convert the data from a string into a JSON object.
               const data = JSON.parse(body); //Convert the returned JSON to a JSON string.
-
+console.log(`data: ${JSON.stringify(data)}`)
               console.log(`Username: ${data.clientData.username}`);
               console.log(`Password: ${data.clientData.password}`);
               console.log(`Port: ${data.clientData.port}`);
