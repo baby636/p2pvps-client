@@ -93,7 +93,7 @@ class P2pVpsServer {
 
     const options = {
       method: "GET",
-      uri: `http://p2pvps.net/device/${deviceId}`,
+      uri: `http://${this.serverIp}:${this.serverPort}/device/${deviceId}`,
       json: true, // Automatically stringifies the body to JSON
     };
 
@@ -112,7 +112,7 @@ class P2pVpsServer {
 
     const options = {
       method: "GET",
-      uri: `http://p2pvps.net/client/expiration/${deviceId}`,
+      uri: `http://${this.serverIp}:${this.serverPort}/client/expiration/${deviceId}`,
       json: true, // Automatically stringifies the body to JSON
     };
 
