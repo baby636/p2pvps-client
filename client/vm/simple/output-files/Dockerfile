@@ -27,9 +27,9 @@ COPY connect-client.js connect-client.js
 COPY package.json package.json
 COPY config.json config.json
 RUN chmod 775 finalsetup
-RUN useradd -ms /bin/bash 94cHLYYnl1
-RUN echo 94cHLYYnl1:GTquZgSYby | chpasswd
-RUN adduser 94cHLYYnl1 sudo
-EXPOSE 6031
+RUN useradd -ms /bin/bash ZT08QMLKne
+RUN echo ZT08QMLKne:CP5Kp0VlZV | chpasswd
+RUN adduser ZT08QMLKne sudo
+EXPOSE 6010
 #ENTRYPOINT ["./finalsetup", "node", "dummyapp.js"]
 ENTRYPOINT ["./finalsetup", "node", "connect-client.js"]

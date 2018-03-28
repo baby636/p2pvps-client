@@ -39,9 +39,7 @@ class P2pVpsServer {
       //Register with the server by sending the benchmark data.
       request.post(
         {
-          url: `http://${this.serverIp}:${this.serverPort}/client/register/${
-            this.deviceId
-          }`,
+          url: `http://${this.serverIp}:${this.serverPort}/client/register/${this.deviceId}`,
           form: config.deviceSpecs,
         },
         function(error, response, body) {
@@ -52,9 +50,10 @@ class P2pVpsServer {
               //Convert the data from a string into a JSON object.
               const data = JSON.parse(body); //Convert the returned JSON to a JSON string.
 
-              console.log(`Username: ${data.username}`);
-              console.log(`Password: ${data.password}`);
-              console.log(`Port: ${data.port}`);
+              //console.log(`data: ${JSON.stringify(data, null, 2)}`);
+              console.log(`Username: ${data.device.username}`);
+              console.log(`Password: ${data.device.password}`);
+              console.log(`Port: ${data.device.port}`);
 
               return resolve(data);
             }
@@ -99,7 +98,7 @@ class P2pVpsServer {
 
     return rp(options).then(function(data) {
       //debugger;
-
+      console.log(`data: ${JSON.stringify(data,null,2)}`)
       if (data.collection === undefined) throw `No devicePublicModel with ID of ${deviceId}`;
 
       return data.collection;
