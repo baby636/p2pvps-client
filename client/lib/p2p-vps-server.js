@@ -39,7 +39,7 @@ class P2pVpsServer {
       //Register with the server by sending the benchmark data.
       request.post(
         {
-          url: `http://${this.serverIp}:${this.serverPort}/client/register/${this.deviceId}`,
+          url: `http://${this.serverIp}:${this.serverPort}/api/client/register/${this.deviceId}`,
           form: config.deviceSpecs,
         },
         function(error, response, body) {
@@ -92,13 +92,13 @@ class P2pVpsServer {
 
     const options = {
       method: "GET",
-      uri: `http://${this.serverIp}:${this.serverPort}/device/${deviceId}`,
+      uri: `http://${this.serverIp}:${this.serverPort}/api/device/${deviceId}`,
       json: true, // Automatically stringifies the body to JSON
     };
 
     return rp(options).then(function(data) {
       //debugger;
-      console.log(`data: ${JSON.stringify(data,null,2)}`)
+      console.log(`data: ${JSON.stringify(data, null, 2)}`);
       if (data.collection === undefined) throw `No devicePublicModel with ID of ${deviceId}`;
 
       return data.collection;
@@ -111,7 +111,7 @@ class P2pVpsServer {
 
     const options = {
       method: "GET",
-      uri: `http://${this.serverIp}:${this.serverPort}/client/expiration/${deviceId}`,
+      uri: `http://${this.serverIp}:${this.serverPort}/api/client/expiration/${deviceId}`,
       json: true, // Automatically stringifies the body to JSON
     };
 

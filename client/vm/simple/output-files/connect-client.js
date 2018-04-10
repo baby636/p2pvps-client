@@ -88,7 +88,7 @@ const checkInTimer = setInterval(function() {
   //Register with the server by sending the benchmark data.
   request.get(
     {
-      url: `http://${global.config.serverIp}:${global.config.serverPort}/client/checkin/${
+      url: `http://${global.config.serverIp}:${global.config.serverPort}/api/client/checkin/${
         global.config.deviceId
       }`,
       // form: obj
