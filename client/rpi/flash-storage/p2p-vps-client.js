@@ -98,6 +98,7 @@ function registerDevice() {
 
       // Save data to a global variable for use in later functions.
       global.clientData = clientData.device;
+      console.log(`clientData: ${JSON.stringify(clientData,null,2)}`)
 
       return (
         // Write out the Dockerfile.
