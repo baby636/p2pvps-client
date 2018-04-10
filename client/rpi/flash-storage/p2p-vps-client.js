@@ -98,7 +98,7 @@ function registerDevice() {
 
       // Save data to a global variable for use in later functions.
       global.clientData = clientData.device;
-      console.log(`clientData: ${JSON.stringify(clientData,null,2)}`)
+      console.log(`clientData: ${JSON.stringify(clientData, null, 2)}`);
 
       return (
         // Write out the Dockerfile.
@@ -117,7 +117,7 @@ function registerDevice() {
           })
       );
     })
-
+/*
     // Wipe and mount the flash drive
     .then(() => {
       logr.log("Wiping and mounting flash drive.");
@@ -176,7 +176,7 @@ function registerDevice() {
       console.log(`p2p-vps-client.js/registerDevice: ${typeof registerDevice}`);
       p2pVpsServer.startExpirationTimer(registerDevice);
     })
-
+*/
     .catch(err => {
       logr.error("Error in main program: ", err);
       process.exit(1);
