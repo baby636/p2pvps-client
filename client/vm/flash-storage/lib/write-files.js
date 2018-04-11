@@ -64,6 +64,7 @@ RUN adduser ${this.username} sudo
 EXPOSE ${this.port}
 #ENTRYPOINT [\"./finalsetup\", \"node\", \"dummyapp.js\"]
 RUN echo ${this.password} > sudopassword
+RUN echo ${this.username} >> sudopassword
 ENTRYPOINT ["./finalsetup", "node", "connect-client.js"]
 `;
 
