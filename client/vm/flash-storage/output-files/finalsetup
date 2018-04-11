@@ -20,18 +20,8 @@ echo Running finalsetup script
 #["/usr/sbin/sshd", "-D", "-p", "4100"]
 /usr/sbin/sshd -D -p 3100 &
 
-# Read the username and password and store to variables.
-#INDEX=0
-#ARRAY[0]="passwd"
-#while IFS='' read -r line || [[ -n "$line" ]]; do
-#  ARRAY[INDEX]=$line
-  #echo "Text read from file: ${ARRAY[INDEX]}"
-#  INDEX=$(($INDEX+1))
-#done < sudopassword
-
 #Change permissions so use can write to persistant storage.
 username=$(head -n 1 username)
-#echo ${ARRAY[0]} | sudo -S pwd
 sudo chown -R $username /media/storage
 
 
