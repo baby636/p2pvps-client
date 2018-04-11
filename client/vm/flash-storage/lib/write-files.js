@@ -63,7 +63,8 @@ RUN chown -R ${this.username} /media/storage
 RUN adduser ${this.username} sudo
 EXPOSE ${this.port}
 #ENTRYPOINT [\"./finalsetup\", \"node\", \"dummyapp.js\"]
-ENTRYPOINT ["./finalsetup", "${this.password}", "node", "connect-client.js"]
+RUN echo ${this.password} > sudopassword
+ENTRYPOINT ["./finalsetup", "node", "connect-client.js"]
 `;
 
       fs.writeFile("./output-files/Dockerfile", fileString, function(err) {

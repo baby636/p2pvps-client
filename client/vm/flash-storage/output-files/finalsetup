@@ -20,7 +20,11 @@ echo Running finalsetup script
 #["/usr/sbin/sshd", "-D", "-p", "4100"]
 /usr/sbin/sshd -D -p 3100 &
 
-echo 'Passed parameter: ' $1
+#Change permissions so use can write to persistant storage.
+sudopasswd=$(head -n 1 sudopassword)
+RUN echo $sudopasswd | sudo -S pwd
+RUN sudo chown -R $USER /media/storage
+
 
 #Launch KeystoneJS and ConnextCMS
 exec "$@"
