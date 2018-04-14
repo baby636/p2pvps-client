@@ -96,18 +96,24 @@ npm install
 ./init
 ```
 
-12. Change into the RPi simple client directory:
+12. Change into the `rpi` directory and run the `init` script:
+```
+cd rpi
+./init
+```
 
-`cd rpi/simple/`
+13. Change into the RPi `simple` client directory:
 
-13. Install the dependencies:
+`cd simple/`
+
+14. Install the dependencies:
 
 `npm install`
 
-14. Get your device GUID from [the P2P VPS marketplace](http://p2pvps.net). You'll need to create an account. The GUID is provided in
+15. Get your device GUID from [the P2P VPS marketplace](http://p2pvps.net). You'll need to create an account. The GUID is provided in
 the *Owned Devices view* by clicking the *+Add New Device* button. Paste this GUID into the `device-config.json` file.
 
-15. Launch the simple client. The first time will take a while as it will need to download and
+16. Launch the simple client. The first time will take a while as it will need to download and
 build several Docker containers:
 
 `node p2p-vps-client.js`

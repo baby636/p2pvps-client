@@ -9,7 +9,7 @@
     "express3-handlebars": "^0.5.2",
     "get-stream": "^3.0.0",
     "node-promise": "^0.5.12",
-    "request": "^2.83.0",
+    "request": "^2.85.0",
     "request-promise": "^4.2.2",
     "reverse-tunnel-ssh": "^1.1.0"
   },
