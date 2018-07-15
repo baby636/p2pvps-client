@@ -102,7 +102,11 @@ function registerDevice() {
       return (
         // Write out the Dockerfile.
         writeFiles
-          .writeDockerfile(clientData.port, clientData.username, clientData.password)
+          .writeDockerfile(
+            clientData.device.port,
+            clientData.device.username,
+            clientData.device.password
+          )
 
           // Write out config.json file.
           .then(() => writeFiles.writeClientConfig(clientData.port, deviceConfig.deviceId))

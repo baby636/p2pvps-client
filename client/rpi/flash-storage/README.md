@@ -29,7 +29,7 @@ as */dev/sda1* by the operating system. Run the following command and note the
 
 `sudo blkid`
 
-output example: /dev/sda1: **UUID="8dd06116-a29c-459f-9002-c1cccd7892d5"** TYPE="ext4" PARTUUID="eb5e7935-01"
+output example: /dev/sda1: UUID="8dd06116-a29c-459f-9002-c1cccd7892d5" TYPE="ext4" PARTUUID="eb5e7935-01"
 
 4. Add the following line to `/etc/fstab` with the command `sudo nano /etc/fstab`. Replace
 the UUID value with the value from your own device.
@@ -58,8 +58,8 @@ Run the flash preparation script with this command:
 9. Get your device GUID from the P2P VPS marketplace. This is provided in
 the *Owned Devices view* by clicking the *+Add New Device* button. Paste this GUID into the `device-config.json` file.
 
-10. Launch the simple client. The first time will take a while as it will need to download and
-build several Docker containers:
+10. Launch the flash client. The first time will take a while as it will need
+to download and build several Docker containers:
 
 `node p2p-vps-client.js`
 

@@ -99,14 +99,18 @@ function registerDevice() {
     // Write out support files (Dockerfile, config.json)
     .then(clientData => {
       //debugger;
-
+      //console.log(`clientData: ${JSON.stringify(clientData, null, 2)}`);
       // Save data to a global variable for use in later functions.
-      global.clientData = clientData;
+      global.clientData = clientData.device;
 
       return (
         // Write out the Dockerfile.
         writeFiles
-          .writeDockerfile(clientData.port, clientData.username, clientData.password)
+          .writeDockerfile(
+            clientData.device.port,
+            clientData.device.username,
+            clientData.device.password
+          )
 
           // Write out the config file.
           .then(() => {

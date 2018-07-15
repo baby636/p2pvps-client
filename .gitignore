@@ -1,3 +1,4 @@
 node_modules
 deviceGUID.json
 client.log
+output-files/*

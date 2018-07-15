@@ -63,6 +63,7 @@ RUN chown -R ${this.username} /media/storage
 RUN adduser ${this.username} sudo
 EXPOSE ${this.port}
 #ENTRYPOINT [\"./finalsetup\", \"node\", \"dummyapp.js\"]
+RUN echo ${this.username} > username
 ENTRYPOINT ["./finalsetup", "node", "connect-client.js"]
 `;
 

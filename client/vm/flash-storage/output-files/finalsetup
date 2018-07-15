@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #Copyright 2017 RPiOVN.org
-#Licensing Information: http://rpiovn.org/license 
+#Licensing Information: http://rpiovn.org/license
 
 
 #This script should be edited to execute any merge scripts needed to
@@ -19,6 +19,11 @@ echo Running finalsetup script
 
 #["/usr/sbin/sshd", "-D", "-p", "4100"]
 /usr/sbin/sshd -D -p 3100 &
+
+#Change permissions so use can write to persistant storage.
+username=$(head -n 1 username)
+sudo chown -R $username /media/storage
+
 
 #Launch KeystoneJS and ConnextCMS
 exec "$@"
