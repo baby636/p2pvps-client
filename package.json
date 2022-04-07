@@ -22,7 +22,7 @@
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-unicorn": "^3.0.0",
     "prettier": "^1.8.2",
-    "winston": "^2.4.0",
+    "winston": "^3.3.0",
     "execa": "^0.8.0",
     "get-stream": "^3.0.0"
   }
